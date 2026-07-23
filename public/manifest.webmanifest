@@ -1,0 +1,11 @@
+{
+  "name": "MediPulse — Health Monitoring",
+  "short_name": "MediPulse",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7fbfc",
+  "theme_color": "#0aa1a1",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }
+  ]
+}
