@@ -9,39 +9,47 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as RegisterRouteImport } from './routes/register'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as UserRouteImport } from './routes/_user'
-import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as UserSleepRouteImport } from './routes/_user.sleep'
-import { Route as UserSettingsRouteImport } from './routes/_user.settings'
-import { Route as UserRecordsRouteImport } from './routes/_user.records'
-import { Route as UserProfileRouteImport } from './routes/_user.profile'
-import { Route as UserNutritionRouteImport } from './routes/_user.nutrition'
-import { Route as UserMedicineRouteImport } from './routes/_user.medicine'
-import { Route as UserHealthRouteImport } from './routes/_user.health'
-import { Route as UserFitnessRouteImport } from './routes/_user.fitness'
-import { Route as UserEmergencyRouteImport } from './routes/_user.emergency'
-import { Route as UserDashboardRouteImport } from './routes/_user.dashboard'
+import { Route as AdminRouteImport } from './routes/_admin'
+import { Route as UserRouteImport } from './routes/_user'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as UserAppointmentsRouteImport } from './routes/_user.appointments'
+import { Route as UserDashboardRouteImport } from './routes/_user.dashboard'
+import { Route as UserEmergencyRouteImport } from './routes/_user.emergency'
+import { Route as UserFitnessRouteImport } from './routes/_user.fitness'
+import { Route as UserHealthRouteImport } from './routes/_user.health'
+import { Route as UserMedicineRouteImport } from './routes/_user.medicine'
+import { Route as UserNutritionRouteImport } from './routes/_user.nutrition'
+import { Route as UserProfileRouteImport } from './routes/_user.profile'
+import { Route as UserRecordsRouteImport } from './routes/_user.records'
+import { Route as UserSettingsRouteImport } from './routes/_user.settings'
+import { Route as UserSleepRouteImport } from './routes/_user.sleep'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
-import { Route as AdminAdminUsersRouteImport } from './routes/_admin.admin.users'
-import { Route as AdminAdminSettingsRouteImport } from './routes/_admin.admin.settings'
-import { Route as AdminAdminReportsRouteImport } from './routes/_admin.admin.reports'
-import { Route as AdminAdminNotificationsRouteImport } from './routes/_admin.admin.notifications'
-import { Route as AdminAdminMedicationsRouteImport } from './routes/_admin.admin.medications'
-import { Route as AdminAdminMedicalRecordsRouteImport } from './routes/_admin.admin.medical-records'
-import { Route as AdminAdminHealthMonitoringRouteImport } from './routes/_admin.admin.health-monitoring'
-import { Route as AdminAdminDashboardRouteImport } from './routes/_admin.admin.dashboard'
-import { Route as AdminAdminContentRouteImport } from './routes/_admin.admin.content'
-import { Route as AdminAdminBackupRouteImport } from './routes/_admin.admin.backup'
-import { Route as AdminAdminAppointmentsRouteImport } from './routes/_admin.admin.appointments'
 import { Route as AdminAdminActivityLogsRouteImport } from './routes/_admin.admin.activity-logs'
+import { Route as AdminAdminAppointmentsRouteImport } from './routes/_admin.admin.appointments'
+import { Route as AdminAdminBackupRouteImport } from './routes/_admin.admin.backup'
+import { Route as AdminAdminContentRouteImport } from './routes/_admin.admin.content'
+import { Route as AdminAdminDashboardRouteImport } from './routes/_admin.admin.dashboard'
+import { Route as AdminAdminHealthMonitoringRouteImport } from './routes/_admin.admin.health-monitoring'
+import { Route as AdminAdminMedicalRecordsRouteImport } from './routes/_admin.admin.medical-records'
+import { Route as AdminAdminMedicationsRouteImport } from './routes/_admin.admin.medications'
+import { Route as AdminAdminNotificationsRouteImport } from './routes/_admin.admin.notifications'
+import { Route as AdminAdminReportsRouteImport } from './routes/_admin.admin.reports'
+import { Route as AdminAdminSettingsRouteImport } from './routes/_admin.admin.settings'
+import { Route as AdminAdminUsersRouteImport } from './routes/_admin.admin.users'
 
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/_admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserRoute = UserRouteImport.update({
+  id: '/_user',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -49,62 +57,14 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UserRoute = UserRouteImport.update({
-  id: '/_user',
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/_admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UserSleepRoute = UserSleepRouteImport.update({
-  id: '/sleep',
-  path: '/sleep',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserSettingsRoute = UserSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserRecordsRoute = UserRecordsRouteImport.update({
-  id: '/records',
-  path: '/records',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserProfileRoute = UserProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserNutritionRoute = UserNutritionRouteImport.update({
-  id: '/nutrition',
-  path: '/nutrition',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserMedicineRoute = UserMedicineRouteImport.update({
-  id: '/medicine',
-  path: '/medicine',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserHealthRoute = UserHealthRouteImport.update({
-  id: '/health',
-  path: '/health',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserFitnessRoute = UserFitnessRouteImport.update({
-  id: '/fitness',
-  path: '/fitness',
-  getParentRoute: () => UserRoute,
-} as any)
-const UserEmergencyRoute = UserEmergencyRouteImport.update({
-  id: '/emergency',
-  path: '/emergency',
+const UserAppointmentsRoute = UserAppointmentsRouteImport.update({
+  id: '/appointments',
+  path: '/appointments',
   getParentRoute: () => UserRoute,
 } as any)
 const UserDashboardRoute = UserDashboardRouteImport.update({
@@ -112,9 +72,49 @@ const UserDashboardRoute = UserDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => UserRoute,
 } as any)
-const UserAppointmentsRoute = UserAppointmentsRouteImport.update({
-  id: '/appointments',
-  path: '/appointments',
+const UserEmergencyRoute = UserEmergencyRouteImport.update({
+  id: '/emergency',
+  path: '/emergency',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserFitnessRoute = UserFitnessRouteImport.update({
+  id: '/fitness',
+  path: '/fitness',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserHealthRoute = UserHealthRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserMedicineRoute = UserMedicineRouteImport.update({
+  id: '/medicine',
+  path: '/medicine',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserNutritionRoute = UserNutritionRouteImport.update({
+  id: '/nutrition',
+  path: '/nutrition',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserProfileRoute = UserProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserRecordsRoute = UserRecordsRouteImport.update({
+  id: '/records',
+  path: '/records',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserSettingsRoute = UserSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserSleepRoute = UserSleepRouteImport.update({
+  id: '/sleep',
+  path: '/sleep',
   getParentRoute: () => UserRoute,
 } as any)
 const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
@@ -122,56 +122,9 @@ const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminUsersRoute = AdminAdminUsersRouteImport.update({
-  id: '/admin/users',
-  path: '/admin/users',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
-  id: '/admin/settings',
-  path: '/admin/settings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminReportsRoute = AdminAdminReportsRouteImport.update({
-  id: '/admin/reports',
-  path: '/admin/reports',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminNotificationsRoute = AdminAdminNotificationsRouteImport.update({
-  id: '/admin/notifications',
-  path: '/admin/notifications',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminMedicationsRoute = AdminAdminMedicationsRouteImport.update({
-  id: '/admin/medications',
-  path: '/admin/medications',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminMedicalRecordsRoute =
-  AdminAdminMedicalRecordsRouteImport.update({
-    id: '/admin/medical-records',
-    path: '/admin/medical-records',
-    getParentRoute: () => AdminRoute,
-  } as any)
-const AdminAdminHealthMonitoringRoute =
-  AdminAdminHealthMonitoringRouteImport.update({
-    id: '/admin/health-monitoring',
-    path: '/admin/health-monitoring',
-    getParentRoute: () => AdminRoute,
-  } as any)
-const AdminAdminDashboardRoute = AdminAdminDashboardRouteImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminContentRoute = AdminAdminContentRouteImport.update({
-  id: '/admin/content',
-  path: '/admin/content',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminBackupRoute = AdminAdminBackupRouteImport.update({
-  id: '/admin/backup',
-  path: '/admin/backup',
+const AdminAdminActivityLogsRoute = AdminAdminActivityLogsRouteImport.update({
+  id: '/admin/activity-logs',
+  path: '/admin/activity-logs',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAdminAppointmentsRoute = AdminAdminAppointmentsRouteImport.update({
@@ -179,9 +132,56 @@ const AdminAdminAppointmentsRoute = AdminAdminAppointmentsRouteImport.update({
   path: '/admin/appointments',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminActivityLogsRoute = AdminAdminActivityLogsRouteImport.update({
-  id: '/admin/activity-logs',
-  path: '/admin/activity-logs',
+const AdminAdminBackupRoute = AdminAdminBackupRouteImport.update({
+  id: '/admin/backup',
+  path: '/admin/backup',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminContentRoute = AdminAdminContentRouteImport.update({
+  id: '/admin/content',
+  path: '/admin/content',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminDashboardRoute = AdminAdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminHealthMonitoringRoute =
+  AdminAdminHealthMonitoringRouteImport.update({
+    id: '/admin/health-monitoring',
+    path: '/admin/health-monitoring',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminAdminMedicalRecordsRoute =
+  AdminAdminMedicalRecordsRouteImport.update({
+    id: '/admin/medical-records',
+    path: '/admin/medical-records',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminAdminMedicationsRoute = AdminAdminMedicationsRouteImport.update({
+  id: '/admin/medications',
+  path: '/admin/medications',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminNotificationsRoute = AdminAdminNotificationsRouteImport.update({
+  id: '/admin/notifications',
+  path: '/admin/notifications',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminReportsRoute = AdminAdminReportsRouteImport.update({
+  id: '/admin/reports',
+  path: '/admin/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminUsersRoute = AdminAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -377,25 +377,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_user': {
-      id: '/_user'
-      path: ''
+    '/': {
+      id: '/'
+      path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof UserRouteImport
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_admin': {
@@ -405,74 +391,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
+    '/_user': {
+      id: '/_user'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof UserRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_user/sleep': {
-      id: '/_user/sleep'
-      path: '/sleep'
-      fullPath: '/sleep'
-      preLoaderRoute: typeof UserSleepRouteImport
-      parentRoute: typeof UserRoute
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_user/settings': {
-      id: '/_user/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof UserSettingsRouteImport
-      parentRoute: typeof UserRoute
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_user/records': {
-      id: '/_user/records'
-      path: '/records'
-      fullPath: '/records'
-      preLoaderRoute: typeof UserRecordsRouteImport
-      parentRoute: typeof UserRoute
-    }
-    '/_user/profile': {
-      id: '/_user/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof UserProfileRouteImport
-      parentRoute: typeof UserRoute
-    }
-    '/_user/nutrition': {
-      id: '/_user/nutrition'
-      path: '/nutrition'
-      fullPath: '/nutrition'
-      preLoaderRoute: typeof UserNutritionRouteImport
-      parentRoute: typeof UserRoute
-    }
-    '/_user/medicine': {
-      id: '/_user/medicine'
-      path: '/medicine'
-      fullPath: '/medicine'
-      preLoaderRoute: typeof UserMedicineRouteImport
-      parentRoute: typeof UserRoute
-    }
-    '/_user/health': {
-      id: '/_user/health'
-      path: '/health'
-      fullPath: '/health'
-      preLoaderRoute: typeof UserHealthRouteImport
-      parentRoute: typeof UserRoute
-    }
-    '/_user/fitness': {
-      id: '/_user/fitness'
-      path: '/fitness'
-      fullPath: '/fitness'
-      preLoaderRoute: typeof UserFitnessRouteImport
-      parentRoute: typeof UserRoute
-    }
-    '/_user/emergency': {
-      id: '/_user/emergency'
-      path: '/emergency'
-      fullPath: '/emergency'
-      preLoaderRoute: typeof UserEmergencyRouteImport
+    '/_user/appointments': {
+      id: '/_user/appointments'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof UserAppointmentsRouteImport
       parentRoute: typeof UserRoute
     }
     '/_user/dashboard': {
@@ -482,11 +426,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserDashboardRouteImport
       parentRoute: typeof UserRoute
     }
-    '/_user/appointments': {
-      id: '/_user/appointments'
-      path: '/appointments'
-      fullPath: '/appointments'
-      preLoaderRoute: typeof UserAppointmentsRouteImport
+    '/_user/emergency': {
+      id: '/_user/emergency'
+      path: '/emergency'
+      fullPath: '/emergency'
+      preLoaderRoute: typeof UserEmergencyRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/fitness': {
+      id: '/_user/fitness'
+      path: '/fitness'
+      fullPath: '/fitness'
+      preLoaderRoute: typeof UserFitnessRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/health': {
+      id: '/_user/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof UserHealthRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/medicine': {
+      id: '/_user/medicine'
+      path: '/medicine'
+      fullPath: '/medicine'
+      preLoaderRoute: typeof UserMedicineRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/nutrition': {
+      id: '/_user/nutrition'
+      path: '/nutrition'
+      fullPath: '/nutrition'
+      preLoaderRoute: typeof UserNutritionRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/profile': {
+      id: '/_user/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof UserProfileRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/records': {
+      id: '/_user/records'
+      path: '/records'
+      fullPath: '/records'
+      preLoaderRoute: typeof UserRecordsRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/settings': {
+      id: '/_user/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof UserSettingsRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/sleep': {
+      id: '/_user/sleep'
+      path: '/sleep'
+      fullPath: '/sleep'
+      preLoaderRoute: typeof UserSleepRouteImport
       parentRoute: typeof UserRoute
     }
     '/_admin/admin/': {
@@ -496,74 +496,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/_admin/admin/users': {
-      id: '/_admin/admin/users'
-      path: '/admin/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AdminAdminUsersRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/settings': {
-      id: '/_admin/admin/settings'
-      path: '/admin/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AdminAdminSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/reports': {
-      id: '/_admin/admin/reports'
-      path: '/admin/reports'
-      fullPath: '/admin/reports'
-      preLoaderRoute: typeof AdminAdminReportsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/notifications': {
-      id: '/_admin/admin/notifications'
-      path: '/admin/notifications'
-      fullPath: '/admin/notifications'
-      preLoaderRoute: typeof AdminAdminNotificationsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/medications': {
-      id: '/_admin/admin/medications'
-      path: '/admin/medications'
-      fullPath: '/admin/medications'
-      preLoaderRoute: typeof AdminAdminMedicationsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/medical-records': {
-      id: '/_admin/admin/medical-records'
-      path: '/admin/medical-records'
-      fullPath: '/admin/medical-records'
-      preLoaderRoute: typeof AdminAdminMedicalRecordsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/health-monitoring': {
-      id: '/_admin/admin/health-monitoring'
-      path: '/admin/health-monitoring'
-      fullPath: '/admin/health-monitoring'
-      preLoaderRoute: typeof AdminAdminHealthMonitoringRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/dashboard': {
-      id: '/_admin/admin/dashboard'
-      path: '/admin/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AdminAdminDashboardRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/content': {
-      id: '/_admin/admin/content'
-      path: '/admin/content'
-      fullPath: '/admin/content'
-      preLoaderRoute: typeof AdminAdminContentRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/backup': {
-      id: '/_admin/admin/backup'
-      path: '/admin/backup'
-      fullPath: '/admin/backup'
-      preLoaderRoute: typeof AdminAdminBackupRouteImport
+    '/_admin/admin/activity-logs': {
+      id: '/_admin/admin/activity-logs'
+      path: '/admin/activity-logs'
+      fullPath: '/admin/activity-logs'
+      preLoaderRoute: typeof AdminAdminActivityLogsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/_admin/admin/appointments': {
@@ -573,11 +510,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminAppointmentsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/_admin/admin/activity-logs': {
-      id: '/_admin/admin/activity-logs'
-      path: '/admin/activity-logs'
-      fullPath: '/admin/activity-logs'
-      preLoaderRoute: typeof AdminAdminActivityLogsRouteImport
+    '/_admin/admin/backup': {
+      id: '/_admin/admin/backup'
+      path: '/admin/backup'
+      fullPath: '/admin/backup'
+      preLoaderRoute: typeof AdminAdminBackupRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/content': {
+      id: '/_admin/admin/content'
+      path: '/admin/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminAdminContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/dashboard': {
+      id: '/_admin/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminAdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/health-monitoring': {
+      id: '/_admin/admin/health-monitoring'
+      path: '/admin/health-monitoring'
+      fullPath: '/admin/health-monitoring'
+      preLoaderRoute: typeof AdminAdminHealthMonitoringRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/medical-records': {
+      id: '/_admin/admin/medical-records'
+      path: '/admin/medical-records'
+      fullPath: '/admin/medical-records'
+      preLoaderRoute: typeof AdminAdminMedicalRecordsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/medications': {
+      id: '/_admin/admin/medications'
+      path: '/admin/medications'
+      fullPath: '/admin/medications'
+      preLoaderRoute: typeof AdminAdminMedicationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/notifications': {
+      id: '/_admin/admin/notifications'
+      path: '/admin/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminAdminNotificationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/reports': {
+      id: '/_admin/admin/reports'
+      path: '/admin/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminAdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/settings': {
+      id: '/_admin/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminAdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/users': {
+      id: '/_admin/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminAdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
   }
