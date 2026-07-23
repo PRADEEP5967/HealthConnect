@@ -11,7 +11,33 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as UserRouteImport } from './routes/_user'
+import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserSleepRouteImport } from './routes/_user.sleep'
+import { Route as UserSettingsRouteImport } from './routes/_user.settings'
+import { Route as UserRecordsRouteImport } from './routes/_user.records'
+import { Route as UserProfileRouteImport } from './routes/_user.profile'
+import { Route as UserNutritionRouteImport } from './routes/_user.nutrition'
+import { Route as UserMedicineRouteImport } from './routes/_user.medicine'
+import { Route as UserHealthRouteImport } from './routes/_user.health'
+import { Route as UserFitnessRouteImport } from './routes/_user.fitness'
+import { Route as UserEmergencyRouteImport } from './routes/_user.emergency'
+import { Route as UserDashboardRouteImport } from './routes/_user.dashboard'
+import { Route as UserAppointmentsRouteImport } from './routes/_user.appointments'
+import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
+import { Route as AdminAdminUsersRouteImport } from './routes/_admin.admin.users'
+import { Route as AdminAdminSettingsRouteImport } from './routes/_admin.admin.settings'
+import { Route as AdminAdminReportsRouteImport } from './routes/_admin.admin.reports'
+import { Route as AdminAdminNotificationsRouteImport } from './routes/_admin.admin.notifications'
+import { Route as AdminAdminMedicationsRouteImport } from './routes/_admin.admin.medications'
+import { Route as AdminAdminMedicalRecordsRouteImport } from './routes/_admin.admin.medical-records'
+import { Route as AdminAdminHealthMonitoringRouteImport } from './routes/_admin.admin.health-monitoring'
+import { Route as AdminAdminDashboardRouteImport } from './routes/_admin.admin.dashboard'
+import { Route as AdminAdminContentRouteImport } from './routes/_admin.admin.content'
+import { Route as AdminAdminBackupRouteImport } from './routes/_admin.admin.backup'
+import { Route as AdminAdminAppointmentsRouteImport } from './routes/_admin.admin.appointments'
+import { Route as AdminAdminActivityLogsRouteImport } from './routes/_admin.admin.activity-logs'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -23,38 +49,328 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserRoute = UserRouteImport.update({
+  id: '/_user',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/_admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const UserSleepRoute = UserSleepRouteImport.update({
+  id: '/sleep',
+  path: '/sleep',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserSettingsRoute = UserSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserRecordsRoute = UserRecordsRouteImport.update({
+  id: '/records',
+  path: '/records',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserProfileRoute = UserProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserNutritionRoute = UserNutritionRouteImport.update({
+  id: '/nutrition',
+  path: '/nutrition',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserMedicineRoute = UserMedicineRouteImport.update({
+  id: '/medicine',
+  path: '/medicine',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserHealthRoute = UserHealthRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserFitnessRoute = UserFitnessRouteImport.update({
+  id: '/fitness',
+  path: '/fitness',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserEmergencyRoute = UserEmergencyRouteImport.update({
+  id: '/emergency',
+  path: '/emergency',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserDashboardRoute = UserDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserAppointmentsRoute = UserAppointmentsRouteImport.update({
+  id: '/appointments',
+  path: '/appointments',
+  getParentRoute: () => UserRoute,
+} as any)
+const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminUsersRoute = AdminAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminReportsRoute = AdminAdminReportsRouteImport.update({
+  id: '/admin/reports',
+  path: '/admin/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminNotificationsRoute = AdminAdminNotificationsRouteImport.update({
+  id: '/admin/notifications',
+  path: '/admin/notifications',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminMedicationsRoute = AdminAdminMedicationsRouteImport.update({
+  id: '/admin/medications',
+  path: '/admin/medications',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminMedicalRecordsRoute =
+  AdminAdminMedicalRecordsRouteImport.update({
+    id: '/admin/medical-records',
+    path: '/admin/medical-records',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminAdminHealthMonitoringRoute =
+  AdminAdminHealthMonitoringRouteImport.update({
+    id: '/admin/health-monitoring',
+    path: '/admin/health-monitoring',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminAdminDashboardRoute = AdminAdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminContentRoute = AdminAdminContentRouteImport.update({
+  id: '/admin/content',
+  path: '/admin/content',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminBackupRoute = AdminAdminBackupRouteImport.update({
+  id: '/admin/backup',
+  path: '/admin/backup',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminAppointmentsRoute = AdminAdminAppointmentsRouteImport.update({
+  id: '/admin/appointments',
+  path: '/admin/appointments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminActivityLogsRoute = AdminAdminActivityLogsRouteImport.update({
+  id: '/admin/activity-logs',
+  path: '/admin/activity-logs',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/appointments': typeof UserAppointmentsRoute
+  '/dashboard': typeof UserDashboardRoute
+  '/emergency': typeof UserEmergencyRoute
+  '/fitness': typeof UserFitnessRoute
+  '/health': typeof UserHealthRoute
+  '/medicine': typeof UserMedicineRoute
+  '/nutrition': typeof UserNutritionRoute
+  '/profile': typeof UserProfileRoute
+  '/records': typeof UserRecordsRoute
+  '/settings': typeof UserSettingsRoute
+  '/sleep': typeof UserSleepRoute
+  '/admin/activity-logs': typeof AdminAdminActivityLogsRoute
+  '/admin/appointments': typeof AdminAdminAppointmentsRoute
+  '/admin/backup': typeof AdminAdminBackupRoute
+  '/admin/content': typeof AdminAdminContentRoute
+  '/admin/dashboard': typeof AdminAdminDashboardRoute
+  '/admin/health-monitoring': typeof AdminAdminHealthMonitoringRoute
+  '/admin/medical-records': typeof AdminAdminMedicalRecordsRoute
+  '/admin/medications': typeof AdminAdminMedicationsRoute
+  '/admin/notifications': typeof AdminAdminNotificationsRoute
+  '/admin/reports': typeof AdminAdminReportsRoute
+  '/admin/settings': typeof AdminAdminSettingsRoute
+  '/admin/users': typeof AdminAdminUsersRoute
+  '/admin/': typeof AdminAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/appointments': typeof UserAppointmentsRoute
+  '/dashboard': typeof UserDashboardRoute
+  '/emergency': typeof UserEmergencyRoute
+  '/fitness': typeof UserFitnessRoute
+  '/health': typeof UserHealthRoute
+  '/medicine': typeof UserMedicineRoute
+  '/nutrition': typeof UserNutritionRoute
+  '/profile': typeof UserProfileRoute
+  '/records': typeof UserRecordsRoute
+  '/settings': typeof UserSettingsRoute
+  '/sleep': typeof UserSleepRoute
+  '/admin/activity-logs': typeof AdminAdminActivityLogsRoute
+  '/admin/appointments': typeof AdminAdminAppointmentsRoute
+  '/admin/backup': typeof AdminAdminBackupRoute
+  '/admin/content': typeof AdminAdminContentRoute
+  '/admin/dashboard': typeof AdminAdminDashboardRoute
+  '/admin/health-monitoring': typeof AdminAdminHealthMonitoringRoute
+  '/admin/medical-records': typeof AdminAdminMedicalRecordsRoute
+  '/admin/medications': typeof AdminAdminMedicationsRoute
+  '/admin/notifications': typeof AdminAdminNotificationsRoute
+  '/admin/reports': typeof AdminAdminReportsRoute
+  '/admin/settings': typeof AdminAdminSettingsRoute
+  '/admin/users': typeof AdminAdminUsersRoute
+  '/admin': typeof AdminAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_admin': typeof AdminRouteWithChildren
+  '/_user': typeof UserRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/_user/appointments': typeof UserAppointmentsRoute
+  '/_user/dashboard': typeof UserDashboardRoute
+  '/_user/emergency': typeof UserEmergencyRoute
+  '/_user/fitness': typeof UserFitnessRoute
+  '/_user/health': typeof UserHealthRoute
+  '/_user/medicine': typeof UserMedicineRoute
+  '/_user/nutrition': typeof UserNutritionRoute
+  '/_user/profile': typeof UserProfileRoute
+  '/_user/records': typeof UserRecordsRoute
+  '/_user/settings': typeof UserSettingsRoute
+  '/_user/sleep': typeof UserSleepRoute
+  '/_admin/admin/activity-logs': typeof AdminAdminActivityLogsRoute
+  '/_admin/admin/appointments': typeof AdminAdminAppointmentsRoute
+  '/_admin/admin/backup': typeof AdminAdminBackupRoute
+  '/_admin/admin/content': typeof AdminAdminContentRoute
+  '/_admin/admin/dashboard': typeof AdminAdminDashboardRoute
+  '/_admin/admin/health-monitoring': typeof AdminAdminHealthMonitoringRoute
+  '/_admin/admin/medical-records': typeof AdminAdminMedicalRecordsRoute
+  '/_admin/admin/medications': typeof AdminAdminMedicationsRoute
+  '/_admin/admin/notifications': typeof AdminAdminNotificationsRoute
+  '/_admin/admin/reports': typeof AdminAdminReportsRoute
+  '/_admin/admin/settings': typeof AdminAdminSettingsRoute
+  '/_admin/admin/users': typeof AdminAdminUsersRoute
+  '/_admin/admin/': typeof AdminAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/appointments'
+    | '/dashboard'
+    | '/emergency'
+    | '/fitness'
+    | '/health'
+    | '/medicine'
+    | '/nutrition'
+    | '/profile'
+    | '/records'
+    | '/settings'
+    | '/sleep'
+    | '/admin/activity-logs'
+    | '/admin/appointments'
+    | '/admin/backup'
+    | '/admin/content'
+    | '/admin/dashboard'
+    | '/admin/health-monitoring'
+    | '/admin/medical-records'
+    | '/admin/medications'
+    | '/admin/notifications'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register'
-  id: '__root__' | '/' | '/login' | '/register'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/appointments'
+    | '/dashboard'
+    | '/emergency'
+    | '/fitness'
+    | '/health'
+    | '/medicine'
+    | '/nutrition'
+    | '/profile'
+    | '/records'
+    | '/settings'
+    | '/sleep'
+    | '/admin/activity-logs'
+    | '/admin/appointments'
+    | '/admin/backup'
+    | '/admin/content'
+    | '/admin/dashboard'
+    | '/admin/health-monitoring'
+    | '/admin/medical-records'
+    | '/admin/medications'
+    | '/admin/notifications'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/_admin'
+    | '/_user'
+    | '/login'
+    | '/register'
+    | '/_user/appointments'
+    | '/_user/dashboard'
+    | '/_user/emergency'
+    | '/_user/fitness'
+    | '/_user/health'
+    | '/_user/medicine'
+    | '/_user/nutrition'
+    | '/_user/profile'
+    | '/_user/records'
+    | '/_user/settings'
+    | '/_user/sleep'
+    | '/_admin/admin/activity-logs'
+    | '/_admin/admin/appointments'
+    | '/_admin/admin/backup'
+    | '/_admin/admin/content'
+    | '/_admin/admin/dashboard'
+    | '/_admin/admin/health-monitoring'
+    | '/_admin/admin/medical-records'
+    | '/_admin/admin/medications'
+    | '/_admin/admin/notifications'
+    | '/_admin/admin/reports'
+    | '/_admin/admin/settings'
+    | '/_admin/admin/users'
+    | '/_admin/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  UserRoute: typeof UserRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
 }
@@ -75,6 +391,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_user': {
+      id: '/_user'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof UserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_admin': {
+      id: '/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -82,11 +412,245 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_user/sleep': {
+      id: '/_user/sleep'
+      path: '/sleep'
+      fullPath: '/sleep'
+      preLoaderRoute: typeof UserSleepRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/settings': {
+      id: '/_user/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof UserSettingsRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/records': {
+      id: '/_user/records'
+      path: '/records'
+      fullPath: '/records'
+      preLoaderRoute: typeof UserRecordsRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/profile': {
+      id: '/_user/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof UserProfileRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/nutrition': {
+      id: '/_user/nutrition'
+      path: '/nutrition'
+      fullPath: '/nutrition'
+      preLoaderRoute: typeof UserNutritionRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/medicine': {
+      id: '/_user/medicine'
+      path: '/medicine'
+      fullPath: '/medicine'
+      preLoaderRoute: typeof UserMedicineRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/health': {
+      id: '/_user/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof UserHealthRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/fitness': {
+      id: '/_user/fitness'
+      path: '/fitness'
+      fullPath: '/fitness'
+      preLoaderRoute: typeof UserFitnessRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/emergency': {
+      id: '/_user/emergency'
+      path: '/emergency'
+      fullPath: '/emergency'
+      preLoaderRoute: typeof UserEmergencyRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/dashboard': {
+      id: '/_user/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof UserDashboardRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/appointments': {
+      id: '/_user/appointments'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof UserAppointmentsRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_admin/admin/': {
+      id: '/_admin/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminAdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/users': {
+      id: '/_admin/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminAdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/settings': {
+      id: '/_admin/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminAdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/reports': {
+      id: '/_admin/admin/reports'
+      path: '/admin/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminAdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/notifications': {
+      id: '/_admin/admin/notifications'
+      path: '/admin/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminAdminNotificationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/medications': {
+      id: '/_admin/admin/medications'
+      path: '/admin/medications'
+      fullPath: '/admin/medications'
+      preLoaderRoute: typeof AdminAdminMedicationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/medical-records': {
+      id: '/_admin/admin/medical-records'
+      path: '/admin/medical-records'
+      fullPath: '/admin/medical-records'
+      preLoaderRoute: typeof AdminAdminMedicalRecordsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/health-monitoring': {
+      id: '/_admin/admin/health-monitoring'
+      path: '/admin/health-monitoring'
+      fullPath: '/admin/health-monitoring'
+      preLoaderRoute: typeof AdminAdminHealthMonitoringRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/dashboard': {
+      id: '/_admin/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminAdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/content': {
+      id: '/_admin/admin/content'
+      path: '/admin/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminAdminContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/backup': {
+      id: '/_admin/admin/backup'
+      path: '/admin/backup'
+      fullPath: '/admin/backup'
+      preLoaderRoute: typeof AdminAdminBackupRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/appointments': {
+      id: '/_admin/admin/appointments'
+      path: '/admin/appointments'
+      fullPath: '/admin/appointments'
+      preLoaderRoute: typeof AdminAdminAppointmentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/activity-logs': {
+      id: '/_admin/admin/activity-logs'
+      path: '/admin/activity-logs'
+      fullPath: '/admin/activity-logs'
+      preLoaderRoute: typeof AdminAdminActivityLogsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAdminActivityLogsRoute: typeof AdminAdminActivityLogsRoute
+  AdminAdminAppointmentsRoute: typeof AdminAdminAppointmentsRoute
+  AdminAdminBackupRoute: typeof AdminAdminBackupRoute
+  AdminAdminContentRoute: typeof AdminAdminContentRoute
+  AdminAdminDashboardRoute: typeof AdminAdminDashboardRoute
+  AdminAdminHealthMonitoringRoute: typeof AdminAdminHealthMonitoringRoute
+  AdminAdminMedicalRecordsRoute: typeof AdminAdminMedicalRecordsRoute
+  AdminAdminMedicationsRoute: typeof AdminAdminMedicationsRoute
+  AdminAdminNotificationsRoute: typeof AdminAdminNotificationsRoute
+  AdminAdminReportsRoute: typeof AdminAdminReportsRoute
+  AdminAdminSettingsRoute: typeof AdminAdminSettingsRoute
+  AdminAdminUsersRoute: typeof AdminAdminUsersRoute
+  AdminAdminIndexRoute: typeof AdminAdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAdminActivityLogsRoute: AdminAdminActivityLogsRoute,
+  AdminAdminAppointmentsRoute: AdminAdminAppointmentsRoute,
+  AdminAdminBackupRoute: AdminAdminBackupRoute,
+  AdminAdminContentRoute: AdminAdminContentRoute,
+  AdminAdminDashboardRoute: AdminAdminDashboardRoute,
+  AdminAdminHealthMonitoringRoute: AdminAdminHealthMonitoringRoute,
+  AdminAdminMedicalRecordsRoute: AdminAdminMedicalRecordsRoute,
+  AdminAdminMedicationsRoute: AdminAdminMedicationsRoute,
+  AdminAdminNotificationsRoute: AdminAdminNotificationsRoute,
+  AdminAdminReportsRoute: AdminAdminReportsRoute,
+  AdminAdminSettingsRoute: AdminAdminSettingsRoute,
+  AdminAdminUsersRoute: AdminAdminUsersRoute,
+  AdminAdminIndexRoute: AdminAdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface UserRouteChildren {
+  UserAppointmentsRoute: typeof UserAppointmentsRoute
+  UserDashboardRoute: typeof UserDashboardRoute
+  UserEmergencyRoute: typeof UserEmergencyRoute
+  UserFitnessRoute: typeof UserFitnessRoute
+  UserHealthRoute: typeof UserHealthRoute
+  UserMedicineRoute: typeof UserMedicineRoute
+  UserNutritionRoute: typeof UserNutritionRoute
+  UserProfileRoute: typeof UserProfileRoute
+  UserRecordsRoute: typeof UserRecordsRoute
+  UserSettingsRoute: typeof UserSettingsRoute
+  UserSleepRoute: typeof UserSleepRoute
+}
+
+const UserRouteChildren: UserRouteChildren = {
+  UserAppointmentsRoute: UserAppointmentsRoute,
+  UserDashboardRoute: UserDashboardRoute,
+  UserEmergencyRoute: UserEmergencyRoute,
+  UserFitnessRoute: UserFitnessRoute,
+  UserHealthRoute: UserHealthRoute,
+  UserMedicineRoute: UserMedicineRoute,
+  UserNutritionRoute: UserNutritionRoute,
+  UserProfileRoute: UserProfileRoute,
+  UserRecordsRoute: UserRecordsRoute,
+  UserSettingsRoute: UserSettingsRoute,
+  UserSleepRoute: UserSleepRoute,
+}
+
+const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  UserRoute: UserRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
 }

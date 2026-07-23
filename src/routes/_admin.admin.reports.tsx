@@ -41,7 +41,7 @@ function Page() {
     toast.success("Exported users.csv");
   };
   const exportActivityCsv = () => {
-    download("activity.csv", toCsv(acts), "text/csv");
+    download("activity.csv", toCsv(acts as unknown as Record<string, unknown>[]), "text/csv");
     toast.success("Exported activity.csv");
   };
   const exportSystemJson = () => {
