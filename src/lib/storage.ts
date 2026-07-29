@@ -342,6 +342,16 @@ export const Notifications = {
     Notifications.all().filter((n) => n.audience === "all" || n.audience === uid),
   add: (n: Notification) => add(KEYS.notifications, n),
   remove: (id: string) => remove<Notification>(KEYS.notifications, id),
+  markRead: (id: string, userId: string) => {
+    const arr = list<Notification>(KEYS.notifications);
+    const idx = arr.findIndex((n) => n.id === id);
+    if (idx >= 0) {
+      arr[idx] = { ...arr[idx], read: { ...(arr[idx].read ?? {}), [userId]: true } };
+      saveList(KEYS.notifications, arr);
+    }
+  },
+  unreadCount: (uid: string) =>
+    Notifications.forUser(uid).filter((n) => !n.read?.[uid]).length,
 };
 
 export const Articles = {

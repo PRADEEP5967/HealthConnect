@@ -10,6 +10,20 @@ import { Badge } from "@/components/ui/badge";
 import { useLive } from "@/lib/useLive";
 import { Users, Metrics, Records, uid } from "@/lib/storage";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Download } from "lucide-react";
+
+function download(name: string, content: string, mime = "text/plain") {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = name; a.click();
+  URL.revokeObjectURL(url);
+}
+function toCsv(rows: Record<string, unknown>[]) {
+  if (!rows.length) return "";
+  const cols = Object.keys(rows[0]);
+  return [cols.join(","), ...rows.map((r) => cols.map((c) => JSON.stringify(r[c] ?? "")).join(","))].join("\n");
+}
 
 export const Route = createFileRoute("/_admin/admin/health-monitoring")({
   component: Page,
@@ -33,6 +47,23 @@ function Page() {
     Records.add({ id: uid(), userId: uidSel, title: "Admin note", category: "Note", notes: note, adminNotes: note, date: new Date().toISOString() });
     setNote("");
     toast.success("Note added to patient timeline");
+  };
+
+  const exportReport = () => {
+    if (!uidSel) return;
+    const u = users.find((x) => x.id === uidSel);
+    download(`health-report-${u?.name ?? uidSel}.json`, JSON.stringify({
+      generatedAt: new Date().toISOString(),
+      patient: { name: u?.name, email: u?.email, age: u?.age, gender: u?.gender, bloodGroup: u?.bloodGroup },
+      metrics: liveMetrics,
+      records: liveRecords,
+    }, null, 2), "application/json");
+    toast.success("Report exported");
+  };
+  const exportCsv = () => {
+    if (!uidSel) return;
+    download(`health-metrics-${uidSel.slice(0, 6)}.csv`, toCsv(liveMetrics as unknown as Record<string, unknown>[]), "text/csv");
+    toast.success("CSV exported");
   };
 
   return (
@@ -85,7 +116,10 @@ function Page() {
                   </div>
                 ))}
               </div>
-              <Badge variant="secondary">Local export coming soon</Badge>
+              <div className="flex flex-col gap-2">
+                <Button variant="secondary" className="w-full gap-2" onClick={exportReport}><Download className="h-4 w-4" /> Export JSON report</Button>
+                <Button variant="outline" className="w-full gap-2" onClick={exportCsv}><Download className="h-4 w-4" /> Export metrics CSV</Button>
+              </div>
             </CardContent>
           </Card>
         </div>

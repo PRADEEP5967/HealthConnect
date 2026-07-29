@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/stats-card";
@@ -10,7 +10,7 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Trash2, KeyRound } from "lucide-react";
+import { Trash2, KeyRound, Eye } from "lucide-react";
 import { useLive } from "@/lib/useLive";
 import { Users, hashPassword, Activity } from "@/lib/storage";
 import { useAuth } from "@/lib/auth";
@@ -74,6 +74,7 @@ function Page() {
                     <TableCell><Badge variant={u.status === "active" ? "default" : "secondary"}>{u.status}</Badge></TableCell>
                     <TableCell>{new Date(u.createdDate).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right">
+                      <Button asChild variant="ghost" size="sm"><Link to="/admin/users/$userId" params={{ userId: u.id }}><Eye className="h-4 w-4" /></Link></Button>
                       <Button variant="ghost" size="sm" onClick={() => Users.update(u.id, { status: u.status === "active" ? "inactive" : "active" })}>
                         {u.status === "active" ? "Deactivate" : "Activate"}
                       </Button>

@@ -1,20 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import {
-  LayoutDashboard,
-  Users,
-  HeartPulse,
-  Calendar,
-  Pill,
-  FileText,
-  Bell,
-  BookOpen,
-  BarChart3,
-  Settings,
-  ClipboardList,
-  DatabaseBackup,
-  LogOut,
-  ShieldCheck,
-} from "lucide-react";
+import { LayoutDashboard, Users, HeartPulse, Calendar, Pill, FileText, Bell, BookOpen, ChartBar as BarChart3, Settings, ClipboardList, DatabaseBackup, LogOut, ShieldCheck, ShieldAlert } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -43,6 +28,7 @@ const groups = [
       { title: "Appointments", url: "/admin/appointments", icon: Calendar },
       { title: "Medications", url: "/admin/medications", icon: Pill },
       { title: "Medical records", url: "/admin/medical-records", icon: FileText },
+      { title: "Emergency", url: "/admin/emergency", icon: ShieldAlert },
     ],
   },
   {

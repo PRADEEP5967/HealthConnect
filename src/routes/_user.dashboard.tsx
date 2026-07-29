@@ -6,8 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLive } from "@/lib/useLive";
-import { Metrics, Medications, Appointments, Notifications } from "@/lib/storage";
-import {
+import { Metrics, Medications, Appointments, Notifications } from "@/lib/storage";import {
   ResponsiveContainer,
   AreaChart,
   Area,
@@ -31,6 +30,7 @@ function Dashboard() {
   const meds = useLive(() => Medications.forUser(uid), []);
   const appts = useLive(() => Appointments.forUser(uid), []);
   const notifs = useLive(() => Notifications.forUser(uid), []);
+  const unread = useLive(() => Notifications.unreadCount(uid), 0);
 
   const bp = metrics.filter((m) => m.type === "bp").slice().reverse();
   const sugar = metrics.filter((m) => m.type === "sugar").slice().reverse();
@@ -133,13 +133,17 @@ function Dashboard() {
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-base flex items-center gap-2">
               <Bell className="h-4 w-4" /> Notifications
+              {unread > 0 && <Badge variant="default">{unread} new</Badge>}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {notifs.length === 0 && <div className="text-sm text-muted-foreground">You're all caught up.</div>}
             {notifs.slice(0, 4).map((n) => (
-              <div key={n.id} className="rounded-lg border p-3">
-                <div className="font-medium">{n.title}</div>
+              <div key={n.id} className={`rounded-lg border p-3 ${!n.read?.[uid] ? "border-primary/40 bg-primary/5" : ""}`}>
+                <div className="flex items-center justify-between">
+                  <div className="font-medium">{n.title}</div>
+                  {!n.read?.[uid] && <button className="text-xs text-primary hover:underline" onClick={() => Notifications.markRead(n.id, uid)}>Mark read</button>}
+                </div>
                 <div className="text-xs text-muted-foreground">{new Date(n.createdAt).toLocaleString()}</div>
                 <div className="mt-1 text-sm">{n.body}</div>
               </div>

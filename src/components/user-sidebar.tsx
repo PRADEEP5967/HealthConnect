@@ -12,6 +12,7 @@ import {
   User as UserIcon,
   Settings,
   LogOut,
+  BookOpen,
 } from "lucide-react";
 import {
   Sidebar,
@@ -39,6 +40,7 @@ const items = [
   { title: "Nutrition", url: "/nutrition", icon: Apple },
   { title: "Sleep", url: "/sleep", icon: Moon },
   { title: "Emergency", url: "/emergency", icon: ShieldAlert },
+  { title: "Articles", url: "/articles", icon: BookOpen },
 ];
 
 const account = [
