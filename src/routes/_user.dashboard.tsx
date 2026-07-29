@@ -1,17 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { HeartPulse, Pill, Calendar, Activity, TrendingUp, Bell } from "lucide-react";
+import { HeartPulse, Pill, Calendar, Activity, TrendingUp, Bell, Weight, Moon } from "lucide-react";
 import { StatsCard, PageHeader } from "@/components/stats-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLive } from "@/lib/useLive";
-import { Metrics, Medications, Appointments, Notifications } from "@/lib/storage";import {
+import { Metrics, Medications, Appointments, Notifications, Sleep } from "@/lib/storage";
+import {
   ResponsiveContainer,
   AreaChart,
   Area,
   LineChart,
   Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -34,6 +37,8 @@ function Dashboard() {
 
   const bp = metrics.filter((m) => m.type === "bp").slice().reverse();
   const sugar = metrics.filter((m) => m.type === "sugar").slice().reverse();
+  const weight = metrics.filter((m) => m.type === "weight").slice().reverse();
+  const sleepLogs = useLive(() => Sleep.forUser(uid), []).slice().reverse();
   const upcoming = appts
     .filter((a) => a.status !== "Cancelled" && a.status !== "Completed")
     .sort((a, b) => a.date.localeCompare(b.date))
@@ -41,6 +46,8 @@ function Dashboard() {
 
   const latestBp = bp.at(-1);
   const latestSugar = sugar.at(-1);
+  const latestWeight = weight.at(-1);
+  const latestSleep = sleepLogs.at(-1);
 
   return (
     <div>
@@ -62,6 +69,20 @@ function Dashboard() {
         />
         <StatsCard label="Medications" value={meds.length} hint="Active plans" icon={Pill} tone="warning" />
         <StatsCard label="Upcoming visits" value={upcoming.length} hint="Next 30 days" icon={Calendar} />
+        <StatsCard
+          label="Weight"
+          value={latestWeight ? `${latestWeight.value} ${latestWeight.unit ?? "kg"}` : "—"}
+          hint="Latest reading"
+          icon={Weight}
+          tone="success"
+        />
+        <StatsCard
+          label="Sleep"
+          value={latestSleep ? `${latestSleep.hours.toFixed(1)}h` : "—"}
+          hint={latestSleep ? `Quality ${latestSleep.quality}/5` : "Last night"}
+          icon={Moon}
+          tone="primary"
+        />
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
@@ -100,6 +121,44 @@ function Dashboard() {
                 <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)" }} />
                 <Area type="monotone" dataKey="v" stroke="var(--chart-3)" fill="var(--chart-3)" fillOpacity={0.2} />
               </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <Weight className="h-4 w-4 text-primary" /> Weight trend
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={weight.map((m) => ({ d: m.date.slice(5, 10), v: m.value }))}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="d" fontSize={11} />
+                <YAxis fontSize={11} />
+                <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)" }} />
+                <Line type="monotone" dataKey="v" stroke="var(--chart-4)" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <Moon className="h-4 w-4 text-primary" /> Sleep trend
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={sleepLogs.map((s) => ({ d: s.date.slice(5, 10), hours: s.hours, quality: s.quality }))}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="d" fontSize={11} />
+                <YAxis fontSize={11} />
+                <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)" }} />
+                <Bar dataKey="hours" fill="var(--chart-5)" radius={[4, 4, 0, 0]} />
+              </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
