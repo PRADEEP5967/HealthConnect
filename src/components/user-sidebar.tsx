@@ -73,7 +73,7 @@ export function UserSidebar() {
             <SidebarMenu>
               {items.map((it) => (
                 <SidebarMenuItem key={it.title}>
-                  <SidebarMenuButton asChild isActive={isActive(it.url)}>
+                  <SidebarMenuButton asChild isActive={isActive(it.url)} tooltip={it.title}>
                     <Link to={it.url} className="flex items-center gap-2">
                       <it.icon className="h-4 w-4" />
                       {!collapsed && <span>{it.title}</span>}
@@ -90,7 +90,7 @@ export function UserSidebar() {
             <SidebarMenu>
               {account.map((it) => (
                 <SidebarMenuItem key={it.title}>
-                  <SidebarMenuButton asChild isActive={isActive(it.url)}>
+                  <SidebarMenuButton asChild isActive={isActive(it.url)} tooltip={it.title}>
                     <Link to={it.url} className="flex items-center gap-2">
                       <it.icon className="h-4 w-4" />
                       {!collapsed && <span>{it.title}</span>}

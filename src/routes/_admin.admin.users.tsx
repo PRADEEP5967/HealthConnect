@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2, KeyRound, Eye } from "lucide-react";
-import { useLive } from "@/lib/useLive";
+import { useLiveLoading } from "@/lib/useLive";
 import { Users, hashPassword, Activity } from "@/lib/storage";
 import { useAuth } from "@/lib/auth";
+import { TableSkeleton } from "@/components/page-skeleton";
+import { AnimateIn } from "@/components/animate-in";
 
 export const Route = createFileRoute("/_admin/admin/users")({
   component: Page,
@@ -22,7 +24,7 @@ export const Route = createFileRoute("/_admin/admin/users")({
 
 function Page() {
   const { user: admin } = useAuth();
-  const users = useLive(() => Users.all(), []);
+  const { data: users, loading } = useLiveLoading(() => Users.all(), []);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState("all");
 
@@ -40,6 +42,7 @@ function Page() {
   return (
     <div>
       <PageHeader title="User management" description="View and manage all accounts." />
+      <AnimateIn variant="fade-in-up">
       <Card>
         <CardContent className="p-4">
           <div className="mb-4 flex flex-wrap gap-2">
@@ -53,8 +56,11 @@ function Page() {
               </SelectContent>
             </Select>
           </div>
+          {loading ? (
+            <TableSkeleton rows={6} />
+          ) : (
           <div className="overflow-x-auto">
-            <Table>
+            <Table className="responsive-table">
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
@@ -66,16 +72,19 @@ function Page() {
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {filtered.length === 0 && (
+                  <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground">No users found</TableCell></TableRow>
+                )}
                 {filtered.map((u) => (
                   <TableRow key={u.id}>
-                    <TableCell className="font-medium">{u.name}</TableCell>
-                    <TableCell>{u.email}</TableCell>
-                    <TableCell><Badge variant="outline">{u.role}</Badge></TableCell>
-                    <TableCell><Badge variant={u.status === "active" ? "default" : "secondary"}>{u.status}</Badge></TableCell>
-                    <TableCell>{new Date(u.createdDate).toLocaleDateString()}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell data-label="Name" className="font-medium">{u.name}</TableCell>
+                    <TableCell data-label="Email">{u.email}</TableCell>
+                    <TableCell data-label="Role"><Badge variant="outline">{u.role}</Badge></TableCell>
+                    <TableCell data-label="Status"><Badge variant={u.status === "active" ? "default" : "secondary"}>{u.status}</Badge></TableCell>
+                    <TableCell data-label="Registered">{new Date(u.createdDate).toLocaleDateString()}</TableCell>
+                    <TableCell data-label="Actions" className="text-right">
                       <Button asChild variant="ghost" size="sm"><Link to="/admin/users/$userId" params={{ userId: u.id }}><Eye className="h-4 w-4" /></Link></Button>
-                      <Button variant="ghost" size="sm" onClick={() => Users.update(u.id, { status: u.status === "active" ? "inactive" : "active" })}>
+                      <Button variant="ghost" size="sm" onClick={() => { Users.update(u.id, { status: u.status === "active" ? "inactive" : "active" }); toast.success(`User ${u.status === "active" ? "deactivated" : "activated"}`); }}>
                         {u.status === "active" ? "Deactivate" : "Activate"}
                       </Button>
                       <Button variant="ghost" size="sm" onClick={() => resetPw(u.id)}><KeyRound className="h-4 w-4" /></Button>
@@ -90,8 +99,10 @@ function Page() {
               </TableBody>
             </Table>
           </div>
+          )}
         </CardContent>
       </Card>
+      </AnimateIn>
     </div>
   );
 }

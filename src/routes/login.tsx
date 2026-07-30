@@ -48,14 +48,14 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen grid place-items-center bg-background px-4">
-      <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-sm">
+      <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-lg animate-scale-in">
         <Link to="/" className="mb-6 flex items-center gap-2 text-sm font-semibold">
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
             <HeartPulse className="h-4 w-4" />
           </span>
           MediPulse
         </Link>
-        <h1 className="text-2xl font-semibold">Sign in</h1>
+        <h1 className="text-2xl font-semibold animate-fade-in-down">Sign in</h1>
         <p className="mt-1 text-sm text-muted-foreground">Choose your role and enter your credentials.</p>
 
         <Tabs value={role} onValueChange={(v) => setRole(v as "USER" | "ADMIN")} className="mt-4">

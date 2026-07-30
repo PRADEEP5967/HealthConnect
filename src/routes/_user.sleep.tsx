@@ -9,8 +9,10 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Trash2 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { useLive } from "@/lib/useLive";
+import { useLiveLoading } from "@/lib/useLive";
 import { Sleep, uid } from "@/lib/storage";
+import { AnimateIn } from "@/components/animate-in";
+import { TableSkeleton } from "@/components/page-skeleton";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 
 export const Route = createFileRoute("/_user/sleep")({
@@ -21,7 +23,7 @@ export const Route = createFileRoute("/_user/sleep")({
 function Page() {
   const { user } = useAuth();
   const userId = user?.id ?? "";
-  const logs = useLive(() => Sleep.forUser(userId), []);
+  const { data: logs, loading } = useLiveLoading(() => Sleep.forUser(userId), []);
   const [hours, setHours] = useState(7);
   const [quality, setQuality] = useState(4);
 
@@ -36,6 +38,7 @@ function Page() {
     <div>
       <PageHeader title="Sleep" description="Rest is medicine." />
       <div className="grid gap-4 lg:grid-cols-3">
+        <AnimateIn variant="fade-in-up">
         <Card>
           <CardHeader><CardTitle className="text-base">Log sleep</CardTitle></CardHeader>
           <CardContent className="space-y-4">
@@ -47,6 +50,8 @@ function Page() {
             <Button className="w-full" onClick={add}>Save</Button>
           </CardContent>
         </Card>
+        </AnimateIn>
+        <AnimateIn variant="fade-in-up" delay={50}>
         <Card className="lg:col-span-2">
           <CardHeader><CardTitle className="text-base">Sleep trend</CardTitle></CardHeader>
           <CardContent className="h-64">
@@ -61,15 +66,17 @@ function Page() {
             </ResponsiveContainer>
           </CardContent>
         </Card>
+        </AnimateIn>
       </div>
-      <div className="mt-4 space-y-2">
-        {logs.map((l) => (
+      <div className="mt-4 space-y-2 stagger">
+        {loading && <TableSkeleton rows={4} />}
+        {!loading && logs.map((l) => (
           <div key={l.id} className="flex items-center justify-between rounded-lg border bg-card p-3">
             <div>
               <div className="font-medium">{l.hours.toFixed(1)} h · quality {l.quality}/5</div>
               <div className="text-xs text-muted-foreground">{new Date(l.date).toLocaleDateString()}</div>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => Sleep.remove(l.id)}><Trash2 className="h-4 w-4" /></Button>
+            <Button variant="ghost" size="icon" onClick={() => { Sleep.remove(l.id); toast.success("Sleep entry deleted"); }}><Trash2 className="h-4 w-4" /></Button>
           </div>
         ))}
       </div>

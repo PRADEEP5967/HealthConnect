@@ -10,7 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { useLive } from "@/lib/useLive";
+import { useLiveLoading } from "@/lib/useLive";
+import { AnimateIn } from "@/components/animate-in";
+import { TableSkeleton } from "@/components/page-skeleton";
 import { Appointments, Activity, uid, type Appointment } from "@/lib/storage";
 
 export const Route = createFileRoute("/_user/appointments")({
@@ -21,7 +23,7 @@ export const Route = createFileRoute("/_user/appointments")({
 function Page() {
   const { user } = useAuth();
   const userId = user?.id ?? "";
-  const items = useLive(() => Appointments.forUser(userId), []);
+  const { data: items, loading } = useLiveLoading(() => Appointments.forUser(userId), []);
   const [f, setF] = useState({ doctor: "", specialty: "", location: "", date: "", time: "10:00", notes: "" });
 
   const add = () => {
@@ -39,6 +41,7 @@ function Page() {
     <div>
       <PageHeader title="Appointments" description="Book and manage your visits." />
       <div className="grid gap-4 lg:grid-cols-3">
+        <AnimateIn variant="fade-in-up">
         <Card>
           <CardHeader><CardTitle className="text-base">New appointment</CardTitle></CardHeader>
           <CardContent className="space-y-3">
@@ -52,10 +55,12 @@ function Page() {
             <Button className="w-full" onClick={add}>Book appointment</Button>
           </CardContent>
         </Card>
+        </AnimateIn>
 
-        <div className="lg:col-span-2 space-y-3">
-          {items.length === 0 && <div className="text-sm text-muted-foreground">No appointments yet.</div>}
-          {items.map((a) => (
+        <div className="lg:col-span-2 space-y-3 stagger">
+          {loading && <TableSkeleton rows={4} />}
+          {!loading && items.length === 0 && <div className="text-sm text-muted-foreground">No appointments yet.</div>}
+          {!loading && items.map((a) => (
             <Card key={a.id}>
               <CardContent className="flex items-center justify-between p-4">
                 <div>
@@ -64,7 +69,7 @@ function Page() {
                   <div className="text-xs mt-1">{a.date} at {a.time}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Select value={a.status} onValueChange={(v) => Appointments.update(a.id, { status: v as Appointment["status"] })}>
+                  <Select value={a.status} onValueChange={(v) => { Appointments.update(a.id, { status: v as Appointment["status"] }); toast.success(`Status updated to ${v}`); }}>
                     <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {["Pending", "Approved", "Completed", "Cancelled"].map((s) => (
@@ -73,7 +78,7 @@ function Page() {
                     </SelectContent>
                   </Select>
                   <Badge variant={badge(a.status)}>{a.status}</Badge>
-                  <Button variant="ghost" size="icon" onClick={() => Appointments.remove(a.id)}><Trash2 className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" onClick={() => { Appointments.remove(a.id); toast.success("Appointment deleted"); }}><Trash2 className="h-4 w-4" /></Button>
                 </div>
               </CardContent>
             </Card>

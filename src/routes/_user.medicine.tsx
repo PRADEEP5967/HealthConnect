@@ -10,8 +10,10 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Trash2, Pill } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { useLive } from "@/lib/useLive";
+import { useLiveLoading } from "@/lib/useLive";
 import { Medications, Activity, uid } from "@/lib/storage";
+import { AnimateIn } from "@/components/animate-in";
+import { TableSkeleton } from "@/components/page-skeleton";
 
 export const Route = createFileRoute("/_user/medicine")({
   component: MedicinePage,
@@ -21,7 +23,7 @@ export const Route = createFileRoute("/_user/medicine")({
 function MedicinePage() {
   const { user } = useAuth();
   const userId = user?.id ?? "";
-  const meds = useLive(() => Medications.forUser(userId), []);
+  const { data: meds, loading } = useLiveLoading(() => Medications.forUser(userId), []);
   const [f, setF] = useState({ name: "", dosage: "", frequency: "Once daily", time: "08:00", reminder: true });
 
   const add = () => {
@@ -45,6 +47,7 @@ function MedicinePage() {
     <div>
       <PageHeader title="Medications" description="Track prescriptions and set reminders." />
       <div className="grid gap-4 lg:grid-cols-3">
+        <AnimateIn variant="fade-in-up">
         <Card>
           <CardHeader><CardTitle className="text-base">New medication</CardTitle></CardHeader>
           <CardContent className="space-y-3">
@@ -59,9 +62,11 @@ function MedicinePage() {
             <Button className="w-full" onClick={add}>Add medication</Button>
           </CardContent>
         </Card>
+        </AnimateIn>
 
-        <div className="lg:col-span-2 space-y-3">
-          {meds.length === 0 && <div className="text-sm text-muted-foreground">No medications yet.</div>}
+        <div className="lg:col-span-2 space-y-3 stagger">
+          {loading && <TableSkeleton rows={4} />}
+          {!loading && meds.length === 0 && <div className="text-sm text-muted-foreground">No medications yet.</div>}
           {meds.map((m) => (
             <Card key={m.id}>
               <CardContent className="flex items-center justify-between p-4">
@@ -74,7 +79,7 @@ function MedicinePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   {m.reminder && <Badge variant="secondary">Reminder</Badge>}
-                  <Button variant="ghost" size="icon" onClick={() => Medications.remove(m.id)}><Trash2 className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" onClick={() => { Medications.remove(m.id); toast.success("Medication removed"); }}><Trash2 className="h-4 w-4" /></Button>
                 </div>
               </CardContent>
             </Card>

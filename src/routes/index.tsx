@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, Calendar, HeartPulse, Pill, ShieldCheck, LineChart } from "lucide-react";
+import { Activity, Calendar, HeartPulse, Pill, ShieldCheck, ChartLine as LineChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -50,17 +50,17 @@ function Landing() {
       </header>
 
       <section className="mx-auto max-w-6xl px-4 pt-16 pb-20 text-center">
-        <span className="inline-flex items-center gap-2 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
+        <span className="inline-flex items-center gap-2 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground animate-fade-in-down">
           <span className="h-1.5 w-1.5 rounded-full bg-success" /> Local-first health platform
         </span>
-        <h1 className="mt-6 text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
+        <h1 className="mt-6 text-balance text-4xl font-semibold tracking-tight sm:text-6xl animate-fade-in-up">
           A calm dashboard for your <span className="text-primary">whole health picture</span>.
         </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-balance text-muted-foreground sm:text-lg">
+        <p className="mx-auto mt-5 max-w-2xl text-balance text-muted-foreground sm:text-lg animate-fade-in-up">
           MediPulse helps patients log vitals, track medications, and prepare for visits — while admins
           get a bird's-eye view of the community they care for.
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3 animate-fade-in-up">
           <Button size="lg" asChild>
             <Link to="/register">Create your account</Link>
           </Button>
@@ -74,10 +74,10 @@ function Landing() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-24">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 stagger">
           {features.map((f) => (
-            <div key={f.title} className="rounded-2xl border bg-card p-5 shadow-sm">
-              <div className="mb-3 grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
+            <div key={f.title} className="rounded-2xl border bg-card p-5 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
+              <div className="mb-3 grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary transition-transform duration-200 group-hover:scale-110">
                 <f.icon className="h-5 w-5" />
               </div>
               <h3 className="font-semibold">{f.title}</h3>
