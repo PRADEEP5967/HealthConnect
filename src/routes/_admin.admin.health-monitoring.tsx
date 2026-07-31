@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useLive } from "@/lib/useLive";
+import { useLive, useLiveLoading } from "@/lib/useLive";
 import { Users, Metrics, Records, uid } from "@/lib/storage";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Download } from "lucide-react";
@@ -34,13 +34,8 @@ function Page() {
   const users = useLive(() => Users.all().filter((u) => u.role === "USER"), []);
   const [uidSel, setUidSel] = useState<string>("");
   const [note, setNote] = useState("");
-  const metrics = useLive(() => (uidSel ? Metrics.forUser(uidSel) : []), []);
-  const records = useLive(() => (uidSel ? Records.forUser(uidSel) : []), []);
-
-  // These useLive hooks don't re-run on uid change since they don't take deps.
-  // Simpler: recompute live at render:
-  const liveMetrics = uidSel ? Metrics.forUser(uidSel) : metrics;
-  const liveRecords = uidSel ? Records.forUser(uidSel) : records;
+  const { data: liveMetrics } = useLiveLoading(() => (uidSel ? Metrics.forUser(uidSel) : []), [uidSel]);
+  const { data: liveRecords } = useLiveLoading(() => (uidSel ? Records.forUser(uidSel) : []), [uidSel]);
 
   const addNote = () => {
     if (!uidSel || !note) return;

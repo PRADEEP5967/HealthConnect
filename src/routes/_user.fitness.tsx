@@ -8,9 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Trash2 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { useLive } from "@/lib/useLive";
+import { useLiveLoading } from "@/lib/useLive";
 import { Fitness, uid } from "@/lib/storage";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import { TableSkeleton } from "@/components/page-skeleton";
+import { AnimateIn } from "@/components/animate-in";
 
 export const Route = createFileRoute("/_user/fitness")({
   component: Page,
@@ -20,7 +22,7 @@ export const Route = createFileRoute("/_user/fitness")({
 function Page() {
   const { user } = useAuth();
   const userId = user?.id ?? "";
-  const logs = useLive(() => Fitness.forUser(userId), []);
+  const { data: logs, loading } = useLiveLoading(() => Fitness.forUser(userId), []);
   const [f, setF] = useState({ activity: "Walk", duration: 30, calories: 150, steps: 5000 });
 
   const add = () => {
@@ -64,6 +66,7 @@ function Page() {
         </Card>
       </div>
       <div className="mt-4 space-y-2">
+        {loading && <TableSkeleton rows={4} />}
         {logs.map((l) => (
           <div key={l.id} className="flex items-center justify-between rounded-lg border bg-card p-3">
             <div>

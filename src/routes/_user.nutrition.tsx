@@ -9,8 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { useLive } from "@/lib/useLive";
+import { useLiveLoading } from "@/lib/useLive";
 import { Nutrition, uid } from "@/lib/storage";
+import { TableSkeleton } from "@/components/page-skeleton";
 
 export const Route = createFileRoute("/_user/nutrition")({
   component: Page,
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/_user/nutrition")({
 function Page() {
   const { user } = useAuth();
   const userId = user?.id ?? "";
-  const logs = useLive(() => Nutrition.forUser(userId), []);
+  const { data: logs, loading } = useLiveLoading(() => Nutrition.forUser(userId), []);
   const [f, setF] = useState({ meal: "Breakfast", food: "", calories: 0 });
 
   const add = () => {
@@ -54,8 +55,9 @@ function Page() {
         <Card className="lg:col-span-2">
           <CardHeader><CardTitle className="text-base">Today: {todayCals} kcal</CardTitle></CardHeader>
           <CardContent className="space-y-2">
-            {logs.length === 0 && <div className="text-sm text-muted-foreground">Nothing logged.</div>}
-            {logs.map((l) => (
+            {loading && <TableSkeleton rows={4} />}
+            {!loading && logs.length === 0 && <div className="text-sm text-muted-foreground">Nothing logged.</div>}
+            {!loading && logs.map((l) => (
               <div key={l.id} className="flex items-center justify-between rounded-lg border p-3">
                 <div>
                   <div className="font-medium">{l.food}</div>

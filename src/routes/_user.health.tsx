@@ -75,6 +75,7 @@ function HealthPage() {
                     <SelectItem value="sugar">Blood sugar</SelectItem>
                     <SelectItem value="weight">Weight</SelectItem>
                     <SelectItem value="heart">Heart rate</SelectItem>
+                    <SelectItem value="bmi">BMI</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

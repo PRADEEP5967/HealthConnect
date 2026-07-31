@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FileText, Download, Trash2, Upload } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { useLive } from "@/lib/useLive";
+import { useLiveLoading } from "@/lib/useLive";
 import { Documents, uid } from "@/lib/storage";
+import { TableSkeleton } from "@/components/page-skeleton";
 
 export const Route = createFileRoute("/_user/records")({
   component: Page,
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/_user/records")({
 function Page() {
   const { user } = useAuth();
   const userId = user?.id ?? "";
-  const docs = useLive(() => Documents.forUser(userId), []);
+  const { data: docs, loading } = useLiveLoading(() => Documents.forUser(userId), []);
   const [category, setCategory] = useState("Report");
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -63,8 +64,9 @@ function Page() {
       </Card>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {docs.length === 0 && <div className="text-sm text-muted-foreground">No documents yet.</div>}
-        {docs.map((d) => (
+        {loading && <TableSkeleton rows={3} />}
+        {!loading && docs.length === 0 && <div className="text-sm text-muted-foreground">No documents yet.</div>}
+        {!loading && docs.map((d) => (
           <Card key={d.id}>
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
