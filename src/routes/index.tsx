@@ -271,7 +271,7 @@ function Landing() {
                 </span>
                 <div>
                   <div className="text-sm font-semibold leading-none">Next visit</div>
-                  <div className="mt-0.5 text-xs text-muted-foreground">Dr. Chen · 10:30 AM</div>
+                  <div className="mt-0.5 text-xs text-muted-foreground">Dr. Pradeep · 10:30 AM</div>
                 </div>
               </div>
             </div>
@@ -496,11 +496,11 @@ function Landing() {
               <div className="mt-6 space-y-2.5 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2.5">
                   <Phone className="h-4 w-4 text-primary" />
-                  <span>+1 (555) 010-0200</span>
+                  <span>+91 8130885013</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <Mail className="h-4 w-4 text-primary" />
-                  <span>support@medipulse.health</span>
+                  <span>support@medipulse.healt</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <MapPin className="h-4 w-4 text-primary" />
@@ -549,7 +549,7 @@ function Landing() {
           {/* Bottom bar */}
           <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-6 sm:flex-row">
             <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} MediPulse. Demo application — data stored locally in your browser.
+              &copy; Er Pradeep Sahani {new Date().getFullYear()} MediPulse. 
             </p>
             <div className="flex items-center gap-5 text-xs text-muted-foreground">
               <a href="#" className="transition-colors hover:text-foreground">Privacy Policy</a>
