@@ -1,5 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { LayoutDashboard, Users, HeartPulse, Calendar, Pill, FileText, Bell, BookOpen, ChartBar as BarChart3, Settings, ClipboardList, DatabaseBackup, LogOut, ShieldCheck, ShieldAlert } from "lucide-react";
+import { LayoutDashboard, Users, HeartPulse, Calendar, Pill, FileText, Bell, BookOpen, ChartBar as BarChart3, Settings, ClipboardList, DatabaseBackup, LogOut, ShieldAlert } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -56,9 +56,7 @@ export function AdminSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-1.5">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <ShieldCheck className="h-4 w-4" />
-          </span>
+          <img src="/logo.svg" alt="MediPulse" className="h-8 w-8 rounded-lg" />
           {!collapsed && (
             <div className="flex flex-col leading-tight">
               <span className="text-sm font-semibold">MediPulse</span>

@@ -172,9 +172,7 @@ function Landing() {
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Link to="/" className="flex items-center gap-2.5 font-semibold">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-              <HeartPulse className="h-5 w-5" />
-            </span>
+            <img src="/logo.svg" alt="MediPulse" className="h-9 w-9 rounded-xl shadow-sm" />
             <span className="text-lg tracking-tight">MediPulse</span>
             <Badge variant="secondary" className="ml-1 hidden text-[10px] sm:inline-flex">
               Hospital OS
@@ -484,9 +482,7 @@ function Landing() {
             {/* Brand + contact */}
             <div className="lg:col-span-2">
               <Link to="/" className="flex items-center gap-2.5 font-semibold">
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground">
-                  <HeartPulse className="h-5 w-5" />
-                </span>
+                <img src="/logo.svg" alt="MediPulse" className="h-9 w-9 rounded-xl" />
                 <span className="text-lg tracking-tight">MediPulse</span>
               </Link>
               <p className="mt-4 max-w-xs text-sm text-muted-foreground">

@@ -1,6 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { HeartPulse } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,9 +49,7 @@ function LoginPage() {
     <div className="min-h-screen grid place-items-center bg-background px-4">
       <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-lg animate-scale-in">
         <Link to="/" className="mb-6 flex items-center gap-2 text-sm font-semibold">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <HeartPulse className="h-4 w-4" />
-          </span>
+          <img src="/logo.svg" alt="MediPulse" className="h-8 w-8 rounded-lg" />
           MediPulse
         </Link>
         <h1 className="text-2xl font-semibold animate-fade-in-down">Sign in</h1>

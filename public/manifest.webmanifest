@@ -1,11 +1,13 @@
 {
-  "name": "MediPulse — Health Monitoring",
+  "name": "MediPulse — Hospital Management Platform",
   "short_name": "MediPulse",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f7fbfc",
-  "theme_color": "#0aa1a1",
+  "theme_color": "#0ea5a5",
   "icons": [
-    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }
+    { "src": "/favicon.ico", "sizes": "256x256 32x32 16x16", "type": "image/x-icon" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

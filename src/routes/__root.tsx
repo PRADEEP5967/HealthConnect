@@ -71,24 +71,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MediPulse — Personal Health Monitoring" },
+      { title: "MediPulse — Hospital & Health Management Platform" },
       {
         name: "description",
         content:
-          "MediPulse is a healthcare and personal health monitoring platform with patient tools and an admin dashboard.",
+          "MediPulse is a modern hospital management platform for patient care, appointments, medications, health monitoring, and emergency response.",
       },
-      { name: "theme-color", content: "#0aa1a1" },
-      { property: "og:title", content: "MediPulse — Personal Health Monitoring" },
+      { name: "theme-color", content: "#0ea5a5" },
+      { property: "og:title", content: "MediPulse — Hospital & Health Management Platform" },
       {
         property: "og:description",
-        content: "Track vitals, medications, appointments, and wellness in one calm dashboard.",
+        content: "Comprehensive hospital management platform for patients and care teams.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/icon-512.png" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/logo.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
