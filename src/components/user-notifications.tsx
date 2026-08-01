@@ -17,7 +17,7 @@ export function UserNotifications() {
   const { user } = useAuth();
   const uid = user?.id ?? "";
   const [open, setOpen] = useState(false);
-  const items = useLive(() => (uid ? Notifications.forUser(uid) : []), [uid]);
+  const items = useLive(() => (uid ? Notifications.forUser(uid) : []), [], [uid]);
   const unread = items.filter((n) => !n.read?.[uid]).length;
 
   const markAllRead = () => {
