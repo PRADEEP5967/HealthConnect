@@ -3,7 +3,7 @@ import { HeartPulse, Calendar, Pill, Activity, ShieldCheck, Stethoscope, Clock, 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import headerImage from "../header-image.png.png";
+import headerImage from "@/assets/header-image.png";
 
 export const Route = createFileRoute("/")({
   component: Landing,
