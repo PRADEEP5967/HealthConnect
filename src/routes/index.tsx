@@ -219,7 +219,7 @@ function Landing() {
               <img
                 src="../header-image.png.png"
                 
-                alt="Doctor consulting a patient in a modern medical office"
+                alt="Doctor consulting a patient in a modern medical office Pradeep Sahani "
                 className="h-[420px] w-full object-cover"
                 loading="eager"
               />
