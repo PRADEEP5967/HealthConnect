@@ -148,7 +148,7 @@ function Page() {
         <StatsCard
           label="Appointment success"
           value={`${apptSuccess.rate}%`}
-          hint={`${apptSuccess.success}/${apptSuccess.total} approved or completed`}
+          hint={`${apptSuccess.successful}/${apptSuccess.total} approved or completed`}
           icon={CheckCircle2}
           tone={apptSuccess.rate >= 70 ? "success" : "destructive"}
         />
