@@ -42,10 +42,12 @@ function Dashboard() {
 
   if (loading) return <DashboardSkeleton />;
 
-  const bp = metrics.filter((m) => m.type === "bp").slice().reverse();
-  const sugar = metrics.filter((m) => m.type === "sugar").slice().reverse();
-  const weight = metrics.filter((m) => m.type === "weight").slice().reverse();
-  const sleepLogs = sleepData.slice().reverse();
+  const byDate = <T extends { date: string }>(list: T[]) =>
+    list.slice().sort((a, b) => a.date.localeCompare(b.date));
+  const bp = byDate(metrics.filter((m) => m.type === "bp"));
+  const sugar = byDate(metrics.filter((m) => m.type === "sugar"));
+  const weight = byDate(metrics.filter((m) => m.type === "weight"));
+  const sleepLogs = byDate(sleepData);
   const upcoming = appts
     .filter((a) => a.status !== "Cancelled" && a.status !== "Completed")
     .sort((a, b) => a.date.localeCompare(b.date))
@@ -60,7 +62,7 @@ function Dashboard() {
     <div>
       <PageHeader title={`Welcome back, ${user?.name?.split(" ")[0] ?? ""}`} description="Here's a snapshot of your wellness." />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 stagger">
         <StatsCard
           label="Blood pressure"
           value={latestBp ? `${latestBp.systolic}/${latestBp.diastolic}` : "—"}

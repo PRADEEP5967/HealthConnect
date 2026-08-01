@@ -5,7 +5,7 @@ import { UserSidebar } from "@/components/user-sidebar";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Search, Printer } from "lucide-react";
+import { Moon, Sun, Printer } from "lucide-react";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 import { Separator } from "@/components/ui/separator";
 import { ShortcutsHelp } from "@/components/shortcuts-help";
@@ -103,7 +103,7 @@ function UserLayout() {
               </Button>
             </div>
           </header>
-          <main id="main-content" className="flex-1 p-6">
+          <main id="main-content" className="flex-1 p-4 sm:p-6">
             <div className="animate-fade-in">
               <Outlet />
             </div>

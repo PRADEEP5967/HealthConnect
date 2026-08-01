@@ -83,7 +83,7 @@ function AdminLayout() {
               </Button>
             </div>
           </header>
-          <main id="main-content" className="flex-1 p-6">
+          <main id="main-content" className="flex-1 p-4 sm:p-6">
             <div className="animate-fade-in">
               <Outlet />
             </div>

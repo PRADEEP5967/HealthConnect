@@ -8,7 +8,7 @@ export function DashboardSkeleton() {
         <Skeleton className="h-8 w-64" />
         <Skeleton className="h-4 w-48" />
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <Card key={i}>
             <CardContent className="flex items-start justify-between gap-4 p-5">
@@ -51,7 +51,7 @@ export function TableSkeleton({ rows = 5 }: { rows?: number }) {
 
 export function CardGridSkeleton({ count = 4 }: { count?: number }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {Array.from({ length: count }).map((_, i) => (
         <Card key={i}>
           <CardContent className="space-y-3 p-5">
