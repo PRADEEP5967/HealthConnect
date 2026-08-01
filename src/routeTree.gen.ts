@@ -13,12 +13,14 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as UserRouteImport } from './routes/_user'
 import { Route as AdminRouteImport } from './routes/_admin'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserSleepRouteImport } from './routes/_user.sleep'
 import { Route as UserSettingsRouteImport } from './routes/_user.settings'
 import { Route as UserRecordsRouteImport } from './routes/_user.records'
 import { Route as UserProfileRouteImport } from './routes/_user.profile'
 import { Route as UserNutritionRouteImport } from './routes/_user.nutrition'
+import { Route as UserNotificationsRouteImport } from './routes/_user.notifications'
 import { Route as UserMedicineRouteImport } from './routes/_user.medicine'
 import { Route as UserHealthRouteImport } from './routes/_user.health'
 import { Route as UserFitnessRouteImport } from './routes/_user.fitness'
@@ -60,6 +62,11 @@ const AdminRoute = AdminRouteImport.update({
   id: '/_admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -88,6 +95,11 @@ const UserProfileRoute = UserProfileRouteImport.update({
 const UserNutritionRoute = UserNutritionRouteImport.update({
   id: '/nutrition',
   path: '/nutrition',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserNotificationsRoute = UserNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => UserRoute,
 } as any)
 const UserMedicineRoute = UserMedicineRouteImport.update({
@@ -205,6 +217,7 @@ const AdminAdminUsersUserIdRoute = AdminAdminUsersUserIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/appointments': typeof UserAppointmentsRoute
@@ -214,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/fitness': typeof UserFitnessRoute
   '/health': typeof UserHealthRoute
   '/medicine': typeof UserMedicineRoute
+  '/notifications': typeof UserNotificationsRoute
   '/nutrition': typeof UserNutritionRoute
   '/profile': typeof UserProfileRoute
   '/records': typeof UserRecordsRoute
@@ -237,6 +251,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/appointments': typeof UserAppointmentsRoute
@@ -246,6 +261,7 @@ export interface FileRoutesByTo {
   '/fitness': typeof UserFitnessRoute
   '/health': typeof UserHealthRoute
   '/medicine': typeof UserMedicineRoute
+  '/notifications': typeof UserNotificationsRoute
   '/nutrition': typeof UserNutritionRoute
   '/profile': typeof UserProfileRoute
   '/records': typeof UserRecordsRoute
@@ -270,6 +286,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/_admin': typeof AdminRouteWithChildren
   '/_user': typeof UserRouteWithChildren
   '/login': typeof LoginRoute
@@ -281,6 +298,7 @@ export interface FileRoutesById {
   '/_user/fitness': typeof UserFitnessRoute
   '/_user/health': typeof UserHealthRoute
   '/_user/medicine': typeof UserMedicineRoute
+  '/_user/notifications': typeof UserNotificationsRoute
   '/_user/nutrition': typeof UserNutritionRoute
   '/_user/profile': typeof UserProfileRoute
   '/_user/records': typeof UserRecordsRoute
@@ -306,6 +324,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$'
     | '/login'
     | '/register'
     | '/appointments'
@@ -315,6 +334,7 @@ export interface FileRouteTypes {
     | '/fitness'
     | '/health'
     | '/medicine'
+    | '/notifications'
     | '/nutrition'
     | '/profile'
     | '/records'
@@ -338,6 +358,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$'
     | '/login'
     | '/register'
     | '/appointments'
@@ -347,6 +368,7 @@ export interface FileRouteTypes {
     | '/fitness'
     | '/health'
     | '/medicine'
+    | '/notifications'
     | '/nutrition'
     | '/profile'
     | '/records'
@@ -370,6 +392,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$'
     | '/_admin'
     | '/_user'
     | '/login'
@@ -381,6 +404,7 @@ export interface FileRouteTypes {
     | '/_user/fitness'
     | '/_user/health'
     | '/_user/medicine'
+    | '/_user/notifications'
     | '/_user/nutrition'
     | '/_user/profile'
     | '/_user/records'
@@ -405,6 +429,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
   AdminRoute: typeof AdminRouteWithChildren
   UserRoute: typeof UserRouteWithChildren
   LoginRoute: typeof LoginRoute
@@ -439,6 +464,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -481,6 +513,13 @@ declare module '@tanstack/react-router' {
       path: '/nutrition'
       fullPath: '/nutrition'
       preLoaderRoute: typeof UserNutritionRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/notifications': {
+      id: '/_user/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof UserNotificationsRouteImport
       parentRoute: typeof UserRoute
     }
     '/_user/medicine': {
@@ -696,6 +735,7 @@ interface UserRouteChildren {
   UserFitnessRoute: typeof UserFitnessRoute
   UserHealthRoute: typeof UserHealthRoute
   UserMedicineRoute: typeof UserMedicineRoute
+  UserNotificationsRoute: typeof UserNotificationsRoute
   UserNutritionRoute: typeof UserNutritionRoute
   UserProfileRoute: typeof UserProfileRoute
   UserRecordsRoute: typeof UserRecordsRoute
@@ -711,6 +751,7 @@ const UserRouteChildren: UserRouteChildren = {
   UserFitnessRoute: UserFitnessRoute,
   UserHealthRoute: UserHealthRoute,
   UserMedicineRoute: UserMedicineRoute,
+  UserNotificationsRoute: UserNotificationsRoute,
   UserNutritionRoute: UserNutritionRoute,
   UserProfileRoute: UserProfileRoute,
   UserRecordsRoute: UserRecordsRoute,
@@ -722,6 +763,7 @@ const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
   AdminRoute: AdminRouteWithChildren,
   UserRoute: UserRouteWithChildren,
   LoginRoute: LoginRoute,
@@ -730,13 +772,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

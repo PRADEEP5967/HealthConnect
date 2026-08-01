@@ -111,7 +111,7 @@ function Page() {
 
       {/* Health averages */}
       <h3 className="mb-2 mt-6 text-sm font-medium text-muted-foreground">Health averages</h3>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 stagger">
         <StatsCard
           label="Average BP"
           value={avgBP.count > 0 ? `${avgBP.systolic}/${avgBP.diastolic}` : "—"}
@@ -143,7 +143,7 @@ function Page() {
 
       {/* Compliance + appointment success */}
       <h3 className="mb-2 mt-6 text-sm font-medium text-muted-foreground">Engagement</h3>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 stagger">
         <StatsCard
           label="Medicine compliance"
           value={`${compliance.rate}%`}
@@ -228,7 +228,7 @@ function Page() {
 
       {/* Data counts */}
       <h3 className="mb-2 mt-6 text-sm font-medium text-muted-foreground">Data counts</h3>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 stagger">
         <StatsCard label="Appointments" value={appts.length} icon={Calendar} />
         <StatsCard label="Medications" value={meds.length} icon={Pill} tone="warning" />
         <StatsCard label="Documents" value={docs.length} icon={FileText} />

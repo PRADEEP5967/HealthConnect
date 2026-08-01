@@ -13,6 +13,7 @@ import {
   Settings,
   LogOut,
   BookOpen,
+  Bell,
 } from "lucide-react";
 import {
   Sidebar,
@@ -44,6 +45,7 @@ const items = [
 ];
 
 const account = [
+  { title: "Notifications", url: "/notifications", icon: Bell },
   { title: "Profile", url: "/profile", icon: UserIcon },
   { title: "Settings", url: "/settings", icon: Settings },
 ];

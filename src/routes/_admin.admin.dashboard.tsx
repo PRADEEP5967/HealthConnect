@@ -105,7 +105,7 @@ function Page() {
       </PageHeader>
 
       {/* Active users row */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 stagger">
         <StatsCard label="Daily active users" value={dau} hint="Logged in today" icon={Users} />
         <StatsCard label="Weekly active users" value={wau} hint="Last 7 days" icon={Users} tone="success" />
         <StatsCard label="Monthly active users" value={mau} hint="Last 30 days" icon={Users} tone="warning" />
@@ -113,7 +113,7 @@ function Page() {
       </div>
 
       {/* Health averages row */}
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 stagger">
         <StatsCard
           label="Average BP"
           value={avgBP.count > 0 ? `${avgBP.systolic}/${avgBP.diastolic}` : "—"}
@@ -144,7 +144,7 @@ function Page() {
       </div>
 
       {/* Compliance + appointment success */}
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 stagger">
         <StatsCard
           label="Appointment success"
           value={`${apptSuccess.rate}%`}
