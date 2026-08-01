@@ -1,28 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  HeartPulse,
-  Calendar,
-  Pill,
-  Activity,
-  ShieldCheck,
-  Stethoscope,
-  Clock,
-  Users,
-  Ambulance,
-  FileText,
-  Bell,
-  Phone,
-  Mail,
-  MapPin,
-  ArrowRight,
-  Star,
-  CheckCircle2,
-  Building2,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Youtube,
-} from "lucide-react";
+import { HeartPulse, Calendar, Pill, Activity, ShieldCheck, Stethoscope, Clock, Users, Ambulance, FileText, Bell, Phone, Mail, MapPin, ArrowRight, Star, CircleCheck as CheckCircle2, Building2, Facebook, Twitter, Linkedin, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -242,7 +219,7 @@ function Landing() {
           <div className="relative animate-fade-in-up [animation-delay:150ms]">
             <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
               <img
-                src="https://images.pexels.com/photos/7579823/pexels-photo-7579823.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                src="header-image.png.png auto=compress&cs=tinysrgb&w=1200"
                 alt="Doctor consulting a patient in a modern medical office"
                 className="h-[420px] w-full object-cover"
                 loading="eager"
