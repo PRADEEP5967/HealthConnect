@@ -9,6 +9,7 @@ import { Moon, Sun, Search, Printer } from "lucide-react";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 import { Separator } from "@/components/ui/separator";
 import { ShortcutsHelp } from "@/components/shortcuts-help";
+import { UserNotifications } from "@/components/user-notifications";
 
 export const Route = createFileRoute("/_user")({
   ssr: false,
@@ -78,6 +79,7 @@ function UserLayout() {
               <span className="text-sm font-medium capitalize">{label}</span>
             </div>
             <div className="flex items-center gap-1">
+              <UserNotifications />
               <ShortcutsHelp
                 shortcuts={[
                   { key: "d", description: "Dashboard" },
