@@ -77,14 +77,7 @@ function LoginPage() {
           </TabsContent>
         </Tabs>
 
-        <div className="mt-6 rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-          <div>
-            <b>Admin demo:</b> admin@demo.local / admin123
-          </div>
-          <div>
-            <b>Patient demo:</b> sara@demo.local / user123
-          </div>
-        </div>
+      
 
         <p className="mt-4 text-center text-sm text-muted-foreground">
           No account?{" "}
