@@ -220,9 +220,11 @@ function Landing() {
               <img
                 src={headerImage}
                 alt="Doctor consulting a patient in a modern medical office"
-                className="h-[420px] w-full object-cover"
+                className="aspect-[4/3] w-full object-cover object-center sm:aspect-[16/10] lg:aspect-auto lg:h-[420px] xl:h-[480px]"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 loading="eager"
               />
+
               <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent" />
             </div>
             {/* Floating stat card */}
