@@ -219,8 +219,8 @@ function Landing() {
           <div className="relative animate-fade-in-up [animation-delay:150ms]">
             <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
               <img
-               // src="https://images.pexels.com/photos/7579823/pexels-photo-7579823.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                src="https://github.com/PRADEEP5967/bloom-web-art/blob/93e68243f5be6bfaf6e4e8803c346006e3219f0d/header-image.png.png?raw=true "
+                src="https://github.com/PRADEEP5967/bloom-web-art/blob/93e68243f5be6bfaf6e4e8803c346006e3219f0d/header-image.png.png?raw=true auto=compress&cs=tinysrgb&w=1200"
+                
                 alt="Doctor consulting a patient in a modern medical office"
                 className="h-[420px] w-full object-cover"
                 loading="eager"
