@@ -210,8 +210,6 @@ function Landing() {
             </div>
             <div className="mt-6 rounded-lg border bg-muted/50 px-4 py-3 text-xs text-muted-foreground">
               <span className="font-medium text-foreground">Demo accounts:</span>{" "}
-               &middot; Patient —{" "}
-              <b>sara@demo.local</b> / <b>user123</b>
             </div>
           </div>
 
