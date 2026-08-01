@@ -3,6 +3,7 @@ import { HeartPulse, Calendar, Pill, Activity, ShieldCheck, Stethoscope, Clock, 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import headerImage from "../header-image.png.png";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -217,7 +218,7 @@ function Landing() {
           <div className="relative animate-fade-in-up [animation-delay:150ms]">
             <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
               <img
-                src="header"
+                src="{header-image}"
                 
                 alt="Doctor consulting a patient in a modern medical office Pradeep Sahani "
                 className="h-[420px] w-full object-cover"
