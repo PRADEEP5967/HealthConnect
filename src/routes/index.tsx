@@ -209,7 +209,7 @@ function Landing() {
               <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-success" /> Patient & admin tools</span>
             </div>
             <div className="mt-6 rounded-lg border bg-muted/50 px-4 py-3 text-xs text-muted-foreground">
-              <span className="font-medium text-foreground">Demo accounts:</span>{" "}
+           
             </div>
           </div>
 
