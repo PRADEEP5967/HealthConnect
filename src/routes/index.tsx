@@ -219,7 +219,7 @@ function Landing() {
           <div className="relative animate-fade-in-up [animation-delay:150ms]">
             <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
               <img
-                src="header-image.png.png auto=compress&cs=tinysrgb&w=1200"
+                src="header-image.png.png "
                 alt="Doctor consulting a patient in a modern medical office"
                 className="h-[420px] w-full object-cover"
                 loading="eager"
