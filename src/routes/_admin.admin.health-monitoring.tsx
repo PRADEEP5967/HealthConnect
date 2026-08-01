@@ -34,8 +34,8 @@ function Page() {
   const users = useLive(() => Users.all().filter((u) => u.role === "USER"), []);
   const [uidSel, setUidSel] = useState<string>("");
   const [note, setNote] = useState("");
-  const { data: liveMetrics } = useLiveLoading(() => (uidSel ? Metrics.forUser(uidSel) : []), [uidSel]);
-  const { data: liveRecords } = useLiveLoading(() => (uidSel ? Records.forUser(uidSel) : []), [uidSel]);
+  const { data: liveMetrics } = useLiveLoading(() => (uidSel ? Metrics.forUser(uidSel) : []), [], [uidSel]);
+  const { data: liveRecords } = useLiveLoading(() => (uidSel ? Records.forUser(uidSel) : []), [], [uidSel]);
 
   const addNote = () => {
     if (!uidSel || !note) return;
