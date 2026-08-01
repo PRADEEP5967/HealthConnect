@@ -219,7 +219,7 @@ function Landing() {
           <div className="relative animate-fade-in-up [animation-delay:150ms]">
             <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
               <img
-                src="https://github.com/PRADEEP5967/bloom-web-art/raw/93e68243f5be6bfaf6e4e8803c346006e3219f0d/header-image.png.png "
+                src="../header-image.png.png"
                 
                 alt="Doctor consulting a patient in a modern medical office"
                 className="h-[420px] w-full object-cover"
