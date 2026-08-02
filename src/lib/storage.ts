@@ -238,9 +238,17 @@ export const Users = {
   byId: (id: string) => Users.all().find((u) => u.id === id),
   byEmail: (email: string) => Users.all().find((u) => u.email.toLowerCase() === email.toLowerCase()),
   add: (u: User) => add(KEYS.users, u),
-  update: (id: string, patch: Partial<User>) => update<User>(KEYS.users, id, patch),
-  remove: (id: string) => remove<User>(KEYS.users, id),
+  replaceAll: (arr: User[]) => saveList<User>(KEYS.users, arr),
+  update: (id: string, patch: Partial<User>) => {
+    update<User>(KEYS.users, id, patch);
+    if (isBrowser()) void import("./cloud").then((m) => m.pushProfileUpdate(id, patch));
+  },
+  remove: (id: string) => {
+    remove<User>(KEYS.users, id);
+    if (isBrowser()) void import("./cloud").then((m) => m.deleteProfileRemote(id));
+  },
 };
+
 
 // Session
 export const SessionStore = {
