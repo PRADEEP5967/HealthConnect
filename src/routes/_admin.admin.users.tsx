@@ -12,7 +12,9 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2, KeyRound, Eye } from "lucide-react";
 import { useLiveLoading } from "@/lib/useLive";
-import { Users, hashPassword, Activity } from "@/lib/storage";
+import { Users, Activity } from "@/lib/storage";
+import { adminResetPassword, adminDeleteUser } from "@/lib/admin.functions";
+import { syncDirectory } from "@/lib/cloud";
 import { useAuth } from "@/lib/auth";
 import { TableSkeleton } from "@/components/page-skeleton";
 import { AnimateIn } from "@/components/animate-in";
@@ -34,9 +36,25 @@ function Page() {
   );
 
   const resetPw = async (id: string) => {
-    Users.update(id, { passwordHash: await hashPassword("temp123") });
-    if (admin) Activity.log(admin.id, "ADMIN_RESET_PW", `Reset password for ${id}`);
-    toast.success("Password reset to temp123");
+    try {
+      await adminResetPassword({ data: { userId: id, password: "temp123" } });
+      if (admin) Activity.log(admin.id, "ADMIN_RESET_PW", `Reset password for ${id}`);
+      toast.success("Password reset to temp123");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not reset password");
+    }
+  };
+
+  const removeUser = async (id: string, name: string) => {
+    try {
+      await adminDeleteUser({ data: { userId: id } });
+      Users.remove(id);
+      if (admin) Activity.log(admin.id, "ADMIN_DELETE_USER", `Deleted ${name}`);
+      await syncDirectory();
+      toast.success("Deleted");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not delete user");
+    }
   };
 
   return (
@@ -89,7 +107,7 @@ function Page() {
                       </Button>
                       <Button variant="ghost" size="sm" onClick={() => resetPw(u.id)}><KeyRound className="h-4 w-4" /></Button>
                       {u.role !== "ADMIN" && (
-                        <Button variant="ghost" size="sm" onClick={() => { Users.remove(u.id); toast.success("Deleted"); }}>
+                        <Button variant="ghost" size="sm" onClick={() => removeUser(u.id, u.name)}>
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       )}
