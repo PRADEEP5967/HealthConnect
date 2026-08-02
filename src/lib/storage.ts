@@ -330,6 +330,7 @@ export const Emergency = {
 
 export const Activity = {
   all: () => list<ActivityLog>(KEYS.activity),
+  replaceAll: (arr: ActivityLog[]) => saveList<ActivityLog>(KEYS.activity, arr),
   log: (userId: string, activity: string, description: string) => {
     const user = Users.byId(userId);
     add<ActivityLog>(KEYS.activity, {
@@ -340,9 +341,16 @@ export const Activity = {
       description,
       timestamp: new Date().toISOString(),
     });
+    if (isBrowser()) {
+      void import("./cloud").then((m) => m.logActivityRemote(userId, user?.name, activity, description));
+    }
   },
-  clear: () => saveList<ActivityLog>(KEYS.activity, []),
+  clear: () => {
+    saveList<ActivityLog>(KEYS.activity, []);
+    if (isBrowser()) void import("./cloud").then((m) => m.clearActivityRemote());
+  },
 };
+
 
 export const Notifications = {
   all: () => list<Notification>(KEYS.notifications),
