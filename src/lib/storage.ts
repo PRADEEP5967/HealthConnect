@@ -238,9 +238,17 @@ export const Users = {
   byId: (id: string) => Users.all().find((u) => u.id === id),
   byEmail: (email: string) => Users.all().find((u) => u.email.toLowerCase() === email.toLowerCase()),
   add: (u: User) => add(KEYS.users, u),
-  update: (id: string, patch: Partial<User>) => update<User>(KEYS.users, id, patch),
-  remove: (id: string) => remove<User>(KEYS.users, id),
+  replaceAll: (arr: User[]) => saveList<User>(KEYS.users, arr),
+  update: (id: string, patch: Partial<User>) => {
+    update<User>(KEYS.users, id, patch);
+    if (isBrowser()) void import("./cloud").then((m) => m.pushProfileUpdate(id, patch));
+  },
+  remove: (id: string) => {
+    remove<User>(KEYS.users, id);
+    if (isBrowser()) void import("./cloud").then((m) => m.deleteProfileRemote(id));
+  },
 };
+
 
 // Session
 export const SessionStore = {
@@ -322,6 +330,7 @@ export const Emergency = {
 
 export const Activity = {
   all: () => list<ActivityLog>(KEYS.activity),
+  replaceAll: (arr: ActivityLog[]) => saveList<ActivityLog>(KEYS.activity, arr),
   log: (userId: string, activity: string, description: string) => {
     const user = Users.byId(userId);
     add<ActivityLog>(KEYS.activity, {
@@ -332,9 +341,16 @@ export const Activity = {
       description,
       timestamp: new Date().toISOString(),
     });
+    if (isBrowser()) {
+      void import("./cloud").then((m) => m.logActivityRemote(userId, user?.name, activity, description));
+    }
   },
-  clear: () => saveList<ActivityLog>(KEYS.activity, []),
+  clear: () => {
+    saveList<ActivityLog>(KEYS.activity, []);
+    if (isBrowser()) void import("./cloud").then((m) => m.clearActivityRemote());
+  },
 };
+
 
 export const Notifications = {
   all: () => list<Notification>(KEYS.notifications),

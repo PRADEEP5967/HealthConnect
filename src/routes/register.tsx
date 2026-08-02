@@ -48,7 +48,11 @@ function RegisterPage() {
           MediPulse
         </Link>
         <h1 className="text-2xl font-semibold animate-fade-in-down">Create your account</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Patient accounts are created here.</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Accounts are stored securely in the cloud, so you can sign in from any device. The first
+          account created becomes the administrator.
+        </p>
+
         <form onSubmit={submit} className="mt-4 space-y-3">
           <div>
             <Label htmlFor="name">Full name</Label>

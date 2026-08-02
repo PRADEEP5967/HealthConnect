@@ -11,9 +11,11 @@ import { ArrowLeft, KeyRound, Trash2 } from "lucide-react";
 import { useLive } from "@/lib/useLive";
 import {
   Users, Metrics, Medications, Appointments, Documents, Fitness, Sleep, Nutrition,
-  hashPassword, Activity, type User,
+  Activity, type User,
 } from "@/lib/storage";
 import { useAuth } from "@/lib/auth";
+import { adminResetPassword, adminDeleteUser } from "@/lib/admin.functions";
+import { syncDirectory } from "@/lib/cloud";
 
 export const Route = createFileRoute("/_admin/admin/users/$userId")({
   ssr: false,
@@ -51,17 +53,26 @@ function Page() {
 
   const resetPw = async () => {
     if (pw.length < 6) return toast.error("Password must be at least 6 characters");
-    Users.update(userId, { passwordHash: await hashPassword(pw) });
-    if (admin) Activity.log(admin.id, "ADMIN_RESET_PW", `Reset password for ${user.name}`);
-    setPw("");
-    toast.success("Password reset");
+    try {
+      await adminResetPassword({ data: { userId, password: pw } });
+      if (admin) Activity.log(admin.id, "ADMIN_RESET_PW", `Reset password for ${user.name}`);
+      setPw("");
+      toast.success("Password reset");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not reset password");
+    }
   };
 
-  const del = () => {
-    Users.remove(userId);
-    if (admin) Activity.log(admin.id, "ADMIN_DELETE_USER", `Deleted ${user.name}`);
-    toast.success("User deleted");
-    nav({ to: "/admin/users" });
+  const del = async () => {
+    try {
+      await adminDeleteUser({ data: { userId } });
+      if (admin) Activity.log(admin.id, "ADMIN_DELETE_USER", `Deleted ${user.name}`);
+      await syncDirectory();
+      toast.success("User deleted");
+      nav({ to: "/admin/users" });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not delete user");
+    }
   };
 
   return (
