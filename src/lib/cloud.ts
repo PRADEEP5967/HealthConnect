@@ -79,16 +79,30 @@ const PROFILE_COLUMNS: Record<string, string> = {
   status: "status",
 };
 
+type ProfileUpdate = Partial<{
+  name: string;
+  email: string;
+  phone: string | null;
+  age: number | null;
+  gender: string | null;
+  blood_group: string | null;
+  status: string;
+}>;
+
 export async function pushProfileUpdate(id: string, patch: Partial<User>): Promise<void> {
-  const row: Record<string, unknown> = {};
-  Object.entries(patch).forEach(([k, v]) => {
-    const col = PROFILE_COLUMNS[k];
-    if (col) row[col] = v;
-  });
+  const row: ProfileUpdate = {};
+  if (patch.name !== undefined) row.name = patch.name;
+  if (patch.email !== undefined) row.email = patch.email;
+  if (patch.phone !== undefined) row.phone = patch.phone ?? null;
+  if (patch.age !== undefined) row.age = patch.age ?? null;
+  if (patch.gender !== undefined) row.gender = patch.gender ?? null;
+  if (patch.bloodGroup !== undefined) row.blood_group = patch.bloodGroup ?? null;
+  if (patch.status !== undefined) row.status = patch.status;
   if (Object.keys(row).length === 0) return;
   const { error } = await supabase.from("profiles").update(row).eq("id", id);
   if (error) console.error("[cloud] profile update failed", error.message);
 }
+
 
 export async function deleteProfileRemote(id: string): Promise<void> {
   const { error } = await supabase.from("profiles").delete().eq("id", id);
