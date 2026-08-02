@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AdminSidebar } from "@/components/admin-sidebar";
 import { useAuth } from "@/lib/auth";
+import { syncDirectory } from "@/lib/cloud";
+
 import { useTheme } from "@/lib/theme";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun, Printer } from "lucide-react";
