@@ -69,15 +69,6 @@ export async function syncDirectory(): Promise<void> {
   }
 }
 
-const PROFILE_COLUMNS: Record<string, string> = {
-  name: "name",
-  email: "email",
-  phone: "phone",
-  age: "age",
-  gender: "gender",
-  bloodGroup: "blood_group",
-  status: "status",
-};
 
 type ProfileUpdate = Partial<{
   name: string;
