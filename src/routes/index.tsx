@@ -151,7 +151,7 @@ function Landing() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Link to="/" className="flex items-center gap-2.5 font-semibold">
             <img src="/logo.svg" alt="MediPulse" className="h-9 w-9 rounded-xl shadow-sm" />
-            <span className="text-lg tracking-tight">MediPulse Pradeep</span>
+            <span className="text-lg tracking-tight">MediPulse</span>
             <Badge variant="secondary" className="ml-1 hidden text-[10px] sm:inline-flex">
               Hospital OS
             </Badge>
@@ -210,7 +210,9 @@ function Landing() {
               <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-success" /> Patient & admin tools</span>
             </div>
             <div className="mt-6 rounded-lg border bg-muted/50 px-4 py-3 text-xs text-muted-foreground">
-           
+              <span className="font-medium text-foreground">Demo accounts:</span>{" "}
+              Admin — <b>admin@demo.local</b> / <b>admin123</b> &middot; Patient —{" "}
+              <b>sara@demo.local</b> / <b>user123</b>
             </div>
           </div>
 
@@ -280,7 +282,7 @@ function Landing() {
           </p>
         </div>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => (
+          {services.map((s) => (
             <Card
               key={s.title}
               className="group relative overflow-hidden border-border/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
@@ -474,7 +476,7 @@ function Landing() {
                 </div>
                 <div className="flex items-center gap-2.5">
                   <Mail className="h-4 w-4 text-primary" />
-                  <span>support@medipulse.healt</span>
+                  <span>support@medipulse.health</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <MapPin className="h-4 w-4 text-primary" />
@@ -523,7 +525,7 @@ function Landing() {
           {/* Bottom bar */}
           <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-6 sm:flex-row">
             <p className="text-xs text-muted-foreground">
-              &copy; Er Pradeep Sahani {new Date().getFullYear()} MediPulse. 
+              &copy; {new Date().getFullYear()} MediPulse. Built by Er Pradeep Sahani.
             </p>
             <div className="flex items-center gap-5 text-xs text-muted-foreground">
               <a href="#" className="transition-colors hover:text-foreground">Privacy Policy</a>
