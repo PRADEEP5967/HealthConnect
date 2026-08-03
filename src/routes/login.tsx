@@ -42,7 +42,8 @@ function LoginPage() {
       return;
     }
     toast.success("Welcome back");
-    nav({ to: role === "ADMIN" ? "/admin/dashboard" : "/dashboard" });
+    // Route by the account's actual role, not the selected tab.
+    nav({ to: res.role === "ADMIN" ? "/admin/dashboard" : "/dashboard" });
   }
 
   return (

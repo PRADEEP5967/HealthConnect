@@ -74,10 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await supabase.auth.signOut();
       return { ok: false, error: "Profile not found for this account." };
     }
-    if (u.role !== role) {
-      await supabase.auth.signOut();
-      return { ok: false, error: `This account isn't a ${role === "ADMIN" ? "admin" : "patient"} account.` };
-    }
+    void role; // the tab is only a hint; the account's real role decides where you land
     if (u.status !== "active") {
       await supabase.auth.signOut();
       return { ok: false, error: "This account is disabled. Contact an administrator." };
