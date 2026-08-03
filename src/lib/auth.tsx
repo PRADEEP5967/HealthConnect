@@ -6,7 +6,7 @@ import { mapProfile, syncDirectory } from "./cloud";
 interface AuthCtx {
   user: User | null;
   ready: boolean;
-  login: (email: string, password: string, role: Role) => Promise<{ ok: boolean; error?: string }>;
+  login: (email: string, password: string, role: Role) => Promise<{ ok: boolean; error?: string; role?: Role }>;
   register: (data: { name: string; email: string; password: string; role: Role }) => Promise<{ ok: boolean; error?: string }>;
   logout: () => void;
   refresh: () => void;
@@ -74,10 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await supabase.auth.signOut();
       return { ok: false, error: "Profile not found for this account." };
     }
-    if (u.role !== role) {
-      await supabase.auth.signOut();
-      return { ok: false, error: `This account isn't a ${role === "ADMIN" ? "admin" : "patient"} account.` };
-    }
+    void role; // the tab is only a hint; the account's real role decides where you land
     if (u.status !== "active") {
       await supabase.auth.signOut();
       return { ok: false, error: "This account is disabled. Contact an administrator." };
@@ -85,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(u);
     await syncDirectory();
     Activity.log(u.id, "LOGIN", "Signed into account");
-    return { ok: true };
+    return { ok: true, role: u.role };
   };
 
   const register: AuthCtx["register"] = async ({ name, email, password }) => {
