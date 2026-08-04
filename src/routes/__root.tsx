@@ -39,6 +39,16 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
+
+  // Transient failures (dev-server restarts, stale chunks, dropped network) render
+  // this boundary even though the app is healthy — recover automatically once.
+  useEffect(() => {
+    const t = setTimeout(() => {
+      router.invalidate();
+      reset();
+    }, 1200);
+    return () => clearTimeout(t);
+  }, [error, router, reset]);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
