@@ -42,6 +42,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const u = await loadCurrentUser(id);
       setUser(u);
       if (u) await syncDirectory();
+    } catch (e) {
+      // A backend hiccup must never blank the app — fall back to signed-out.
+      console.warn("[auth] session hydrate failed", e);
+      setUser(null);
     } finally {
       loading.current = false;
       setReady(true);
@@ -50,15 +54,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Local demo health data still seeds for the current device.
-    void ensureSeed().then(() => hydrate());
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
-        void hydrate();
-      }
-    });
-    return () => sub.subscription.unsubscribe();
+    void ensureSeed()
+      .then(() => hydrate())
+      .catch(() => setReady(true));
+    try {
+      const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+        if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
+          void hydrate();
+        }
+      });
+      return () => sub.subscription.unsubscribe();
+    } catch (e) {
+      console.warn("[auth] could not subscribe to auth changes", e);
+      setReady(true);
+      return;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   const refresh = () => {
     void hydrate();
