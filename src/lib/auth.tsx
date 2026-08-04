@@ -97,14 +97,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const login: AuthCtx["login"] = async (email, password, role) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    if (error || !data.user) {
-      return { ok: false, error: error?.message ?? "Could not sign in." };
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !password) return { ok: false, error: "Enter your email and password." };
+    let data, error;
+    try {
+      ({ data, error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password }));
+    } catch (e) {
+      console.warn("[auth] sign-in failed", e);
+      return { ok: false, error: "Could not reach the server. Check your connection and try again." };
     }
-    const u = await loadCurrentUser(data.user.id);
+    if (error || !data?.user) {
+      return { ok: false, error: friendlyAuthError(error?.message ?? "Could not sign in.") };
+    }
+    const u = await loadCurrentUser(data.user.id, 5);
     if (!u) {
       await supabase.auth.signOut();
-      return { ok: false, error: "Profile not found for this account." };
+      return { ok: false, error: "Profile not found for this account. Please register again." };
     }
     void role; // the tab is only a hint; the account's real role decides where you land
     if (u.status !== "active") {
@@ -118,26 +126,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register: AuthCtx["register"] = async ({ name, email, password }) => {
-    const { data, error } = await supabase.auth.signUp({
-      email: email.trim(),
-      password,
-      options: {
-        data: { name },
-        emailRedirectTo: `${window.location.origin}/login`,
-      },
-    });
-    if (error) return { ok: false, error: error.message };
+    const cleanEmail = email.trim().toLowerCase();
+    if (!name.trim()) return { ok: false, error: "Enter your full name." };
+    let data, error;
+    try {
+      ({ data, error } = await supabase.auth.signUp({
+        email: cleanEmail,
+        password,
+        options: {
+          data: { name: name.trim() },
+          emailRedirectTo: `${window.location.origin}/login`,
+        },
+      }));
+    } catch (e) {
+      console.warn("[auth] sign-up failed", e);
+      return { ok: false, error: "Could not reach the server. Check your connection and try again." };
+    }
+    if (error) return { ok: false, error: friendlyAuthError(error.message) };
+    if (!data?.user) return { ok: false, error: "Could not create the account. Please try again." };
     if (!data.session) {
       return { ok: false, error: "Check your email to confirm your account, then sign in." };
     }
-    const u = await loadCurrentUser(data.user!.id);
+    const u = await loadCurrentUser(data.user.id, 6);
+    if (!u) return { ok: false, error: "Account created but the profile is still syncing. Try signing in." };
     setUser(u);
-    if (u) {
-      await syncDirectory();
-      Activity.log(u.id, "REGISTER", "Created account");
-    }
-    return { ok: true };
+    await syncDirectory();
+    Activity.log(u.id, "REGISTER", "Created account");
+    return { ok: true, role: u.role };
   };
+
 
   const logout = () => {
     if (user) Activity.log(user.id, "LOGOUT", "Signed out");
