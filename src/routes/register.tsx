@@ -37,7 +37,7 @@ function RegisterPage() {
     setLoading(false);
     if (!res.ok) return toast.error(res.error);
     toast.success("Account created");
-    nav({ to: "/dashboard" });
+    nav({ to: res.role === "ADMIN" ? "/admin/dashboard" : "/dashboard" });
   }
 
   return (
