@@ -16,6 +16,31 @@ interface ProfileRow {
   created_at: string;
 }
 
+/** True when the browser bundle actually received the backend config. */
+function cloudConfigured(): boolean {
+  const env = import.meta.env as Record<string, string | undefined>;
+  return Boolean(
+    (env['VITE_SUPABASE_URL'] || env['SUPABASE_URL']) &&
+      (env['VITE_SUPABASE_PUBLISHABLE_KEY'] ||
+        env['VITE_SUPABASE_ANON_KEY'] ||
+        env['SUPABASE_PUBLISHABLE_KEY']),
+  );
+}
+
+/** Never let a backend/network hiccup surface as an uncaught promise rejection. */
+async function safe<T>(label: string, fn: () => Promise<T>, fallback: T): Promise<T> {
+  if (!cloudConfigured()) {
+    console.warn(`[cloud] skipped ${label}: backend not configured in this build`);
+    return fallback;
+  }
+  try {
+    return await fn();
+  } catch (e) {
+    console.warn(`[cloud] ${label} failed`, e);
+    return fallback;
+  }
+}
+
 export function mapProfile(p: ProfileRow, role: Role): User {
   return {
     id: p.id,
@@ -33,6 +58,10 @@ export function mapProfile(p: ProfileRow, role: Role): User {
 }
 
 export async function fetchDirectory(): Promise<{ users: User[]; logs: ActivityLog[] }> {
+  return safe("fetchDirectory", () => fetchDirectoryInner(), { users: [], logs: [] });
+}
+
+async function fetchDirectoryInner(): Promise<{ users: User[]; logs: ActivityLog[] }> {
   const [profiles, roles, logs] = await Promise.all([
     supabase.from("profiles").select("*").order("created_at", { ascending: false }),
     supabase.from("user_roles").select("user_id, role"),
@@ -60,13 +89,10 @@ export async function fetchDirectory(): Promise<{ users: User[]; logs: ActivityL
 
 /** Pull the cloud directory into the local mirror so all screens see it. */
 export async function syncDirectory(): Promise<void> {
-  try {
-    const { users, logs } = await fetchDirectory();
-    Users.replaceAll(users);
-    Activity.replaceAll(logs);
-  } catch (e) {
-    console.error("[cloud] directory sync failed", e);
-  }
+  const { users, logs } = await fetchDirectory();
+  if (users.length === 0 && logs.length === 0) return;
+  Users.replaceAll(users);
+  Activity.replaceAll(logs);
 }
 
 
@@ -90,14 +116,18 @@ export async function pushProfileUpdate(id: string, patch: Partial<User>): Promi
   if (patch.bloodGroup !== undefined) row.blood_group = patch.bloodGroup ?? null;
   if (patch.status !== undefined) row.status = patch.status;
   if (Object.keys(row).length === 0) return;
-  const { error } = await supabase.from("profiles").update(row).eq("id", id);
-  if (error) console.error("[cloud] profile update failed", error.message);
+  await safe("profile update", async () => {
+    const { error } = await supabase.from("profiles").update(row).eq("id", id);
+    if (error) console.warn("[cloud] profile update failed", error.message);
+  }, undefined);
 }
 
 
 export async function deleteProfileRemote(id: string): Promise<void> {
-  const { error } = await supabase.from("profiles").delete().eq("id", id);
-  if (error) console.error("[cloud] profile delete failed", error.message);
+  await safe("profile delete", async () => {
+    const { error } = await supabase.from("profiles").delete().eq("id", id);
+    if (error) console.warn("[cloud] profile delete failed", error.message);
+  }, undefined);
 }
 
 export async function logActivityRemote(
@@ -106,17 +136,21 @@ export async function logActivityRemote(
   activity: string,
   description: string,
 ): Promise<void> {
-  const { data } = await supabase.auth.getSession();
-  const authId = data.session?.user.id;
-  // RLS only allows inserting activity for yourself.
-  if (!authId || authId !== userId) return;
-  const { error } = await supabase
-    .from("activity_logs")
-    .insert({ user_id: userId, user_name: userName ?? null, activity, description });
-  if (error) console.error("[cloud] activity insert failed", error.message);
+  await safe("activity insert", async () => {
+    const { data } = await supabase.auth.getSession();
+    const authId = data.session?.user.id;
+    // RLS only allows inserting activity for yourself.
+    if (!authId || authId !== userId) return;
+    const { error } = await supabase
+      .from("activity_logs")
+      .insert({ user_id: userId, user_name: userName ?? null, activity, description });
+    if (error) console.warn("[cloud] activity insert failed", error.message);
+  }, undefined);
 }
 
 export async function clearActivityRemote(): Promise<void> {
-  const { error } = await supabase.from("activity_logs").delete().not("id", "is", null);
-  if (error) console.error("[cloud] activity clear failed", error.message);
+  await safe("activity clear", async () => {
+    const { error } = await supabase.from("activity_logs").delete().not("id", "is", null);
+    if (error) console.warn("[cloud] activity clear failed", error.message);
+  }, undefined);
 }
