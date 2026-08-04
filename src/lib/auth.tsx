@@ -14,14 +14,33 @@ interface AuthCtx {
 
 const Ctx = createContext<AuthCtx | null>(null);
 
-async function loadCurrentUser(userId: string): Promise<User | null> {
-  const [{ data: profile }, { data: roles }] = await Promise.all([
-    supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
-    supabase.from("user_roles").select("role").eq("user_id", userId),
-  ]);
-  if (!profile) return null;
-  const role: Role = (roles ?? []).some((r) => r.role === "admin") ? "ADMIN" : "USER";
-  return mapProfile(profile, role);
+async function loadCurrentUser(userId: string, retries = 0): Promise<User | null> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const [{ data: profile }, { data: roles }] = await Promise.all([
+      supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
+      supabase.from("user_roles").select("role").eq("user_id", userId),
+    ]);
+    if (profile) {
+      const role: Role = (roles ?? []).some((r) => r.role === "admin") ? "ADMIN" : "USER";
+      return mapProfile(profile, role);
+    }
+    // The signup trigger creates the profile asynchronously — wait and retry.
+    if (attempt < retries) await new Promise((r) => setTimeout(r, 400));
+  }
+  return null;
+}
+
+function friendlyAuthError(message: string): string {
+  const m = message.toLowerCase();
+  if (m.includes("invalid login credentials")) return "Wrong email or password.";
+  if (m.includes("email not confirmed")) return "Confirm your email address, then sign in.";
+  if (m.includes("already registered") || m.includes("already been registered"))
+    return "An account with this email already exists. Sign in instead.";
+  if (m.includes("password") && m.includes("6")) return "Password must be at least 6 characters.";
+  if (m.includes("pwned") || m.includes("compromised") || m.includes("weak"))
+    return "That password has appeared in a data breach. Pick a stronger one.";
+  if (m.includes("rate limit")) return "Too many attempts. Please wait a minute and try again.";
+  return message;
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
