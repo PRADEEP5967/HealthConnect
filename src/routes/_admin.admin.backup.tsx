@@ -91,6 +91,77 @@ function Page() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="mt-4">
+        <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2">
+          <CardTitle className="text-base flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Data integrity</CardTitle>
+          <div className="flex gap-2">
+            <Button size="sm" onClick={scan}>Run check</Button>
+            {log.length > 0 && (
+              <Button size="sm" variant="ghost" onClick={() => { clearRepairLog(); refresh(); }}>Clear log</Button>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Stored records and profiles are validated against their schema on every app start. Corrupted or partially
+            written data is copied to a safety backup, then repaired automatically.
+          </p>
+
+          <div>
+            <h3 className="mb-2 text-sm font-medium">Repair history</h3>
+            {log.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No repairs recorded — all stores are valid.</p>
+            ) : (
+              <ul className="space-y-2">
+                {log.map((r, i) => (
+                  <li key={`${r.key}-${r.at}-${i}`} className="rounded-lg border p-3 text-sm">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-medium">{r.label}</span>
+                      <Badge variant="secondary">{reasonLabel[r.reason]}</Badge>
+                      <span className="text-xs text-muted-foreground">{new Date(r.at).toLocaleString()}</span>
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {r.removed} discarded · {r.kept} kept{r.backupKey ? " · original backed up" : " · backup unavailable"}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div>
+            <h3 className="mb-2 text-sm font-medium">Quarantined backups</h3>
+            {backups.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No quarantined data.</p>
+            ) : (
+              <ul className="space-y-2">
+                {backups.map((b) => (
+                  <li key={b.key} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 text-sm">
+                    <div className="min-w-0">
+                      <p className="truncate font-medium">{b.sourceKey}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {b.at ? new Date(b.at).toLocaleString() : "unknown time"} · {(b.size / 1024).toFixed(1)} KB
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="secondary" className="gap-1"
+                        onClick={() => { restoreBackup(b.key) ? toast.success("Restored (revalidated)") : toast.error("Could not restore"); refresh(); }}>
+                        <RotateCcw className="h-3.5 w-3.5" /> Restore
+                      </Button>
+                      <Button size="sm" variant="ghost" className="gap-1"
+                        onClick={() => { deleteBackup(b.key); refresh(); }}>
+                        <Trash2 className="h-3.5 w-3.5" /> Delete
+                      </Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
     </div>
   );
 }
