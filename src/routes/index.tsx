@@ -151,7 +151,7 @@ function Landing() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <Link to="/" className="flex items-center gap-2.5 font-semibold">
             <img src="/logo.svg" alt="MediPulse" className="h-9 w-9 rounded-xl shadow-sm" />
-            <span className="text-lg tracking-tight">MediPulse</span>
+            <span className="text-lg tracking-tight">MediPulse Pradeep</span>
             <Badge variant="secondary" className="ml-1 hidden text-[10px] sm:inline-flex">
               Hospital OS
             </Badge>
