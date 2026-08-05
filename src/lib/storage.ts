@@ -424,12 +424,17 @@ export function importBackup(data: Record<string, unknown>) {
     if (k === "seeded") return;
     if (k in data) write(key, data[k]);
   });
+  // Imported payloads are untrusted — validate and repair right away.
+  runIntegrityCheck();
 }
 
 // Seed default admin & sample data
 export async function ensureSeed() {
   if (!isBrowser()) return;
+  // Repair anything corrupted before deciding whether seeding is needed.
+  runIntegrityCheck();
   if (localStorage.getItem(KEYS.seeded)) return;
+
   const now = new Date();
   const iso = (d: Date) => d.toISOString();
   const daysAgo = (n: number) => {
