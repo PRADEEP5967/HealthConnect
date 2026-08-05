@@ -1,5 +1,9 @@
 // LocalStorage-backed data layer. All access should go through helpers here.
 // SSR-safe: returns defaults when window is undefined.
+import { validateAndRepairKey, runIntegrityCheck } from "./schema";
+
+export { runIntegrityCheck };
+
 
 export type Role = "ADMIN" | "USER";
 
@@ -183,15 +187,30 @@ function read<T>(key: string, fallback: T): T {
     if (!raw) return fallback;
     return JSON.parse(raw) as T;
   } catch {
-    return fallback;
+    // Corrupted / partially written payload: quarantine + repair, then retry once.
+    try {
+      validateAndRepairKey(key);
+      const raw = localStorage.getItem(key);
+      if (!raw) return fallback;
+      return JSON.parse(raw) as T;
+    } catch {
+      return fallback;
+    }
   }
 }
 
 function write<T>(key: string, value: T): void {
   if (!isBrowser()) return;
-  localStorage.setItem(key, JSON.stringify(value));
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Quota / serialization failure would leave a truncated value behind.
+    validateAndRepairKey(key);
+    return;
+  }
   window.dispatchEvent(new CustomEvent("hc-storage", { detail: { key } }));
 }
+
 
 export const uid = () =>
   isBrowser() && "randomUUID" in crypto
@@ -405,12 +424,17 @@ export function importBackup(data: Record<string, unknown>) {
     if (k === "seeded") return;
     if (k in data) write(key, data[k]);
   });
+  // Imported payloads are untrusted — validate and repair right away.
+  runIntegrityCheck();
 }
 
 // Seed default admin & sample data
 export async function ensureSeed() {
   if (!isBrowser()) return;
+  // Repair anything corrupted before deciding whether seeding is needed.
+  runIntegrityCheck();
   if (localStorage.getItem(KEYS.seeded)) return;
+
   const now = new Date();
   const iso = (d: Date) => d.toISOString();
   const daysAgo = (n: number) => {
