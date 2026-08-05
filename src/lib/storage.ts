@@ -183,15 +183,30 @@ function read<T>(key: string, fallback: T): T {
     if (!raw) return fallback;
     return JSON.parse(raw) as T;
   } catch {
-    return fallback;
+    // Corrupted / partially written payload: quarantine + repair, then retry once.
+    try {
+      validateAndRepairKey(key);
+      const raw = localStorage.getItem(key);
+      if (!raw) return fallback;
+      return JSON.parse(raw) as T;
+    } catch {
+      return fallback;
+    }
   }
 }
 
 function write<T>(key: string, value: T): void {
   if (!isBrowser()) return;
-  localStorage.setItem(key, JSON.stringify(value));
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Quota / serialization failure would leave a truncated value behind.
+    validateAndRepairKey(key);
+    return;
+  }
   window.dispatchEvent(new CustomEvent("hc-storage", { detail: { key } }));
 }
+
 
 export const uid = () =>
   isBrowser() && "randomUUID" in crypto
