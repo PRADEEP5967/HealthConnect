@@ -1,19 +1,51 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/stats-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DatabaseBackup, Upload, Download } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { DatabaseBackup, Upload, Download, ShieldCheck, RotateCcw, Trash2 } from "lucide-react";
 import { exportBackup, importBackup } from "@/lib/storage";
+import {
+  runIntegrityCheck,
+  getRepairLog,
+  listBackups,
+  restoreBackup,
+  deleteBackup,
+  clearRepairLog,
+  type RepairEntry,
+} from "@/lib/schema";
 
 export const Route = createFileRoute("/_admin/admin/backup")({
   component: Page,
   head: () => ({ meta: [{ title: "Backup — Admin" }, { name: "description", content: "Export and restore all platform data." }] }),
 });
 
+const reasonLabel: Record<RepairEntry["reason"], string> = {
+  unparsable: "Partially written / unreadable",
+  "wrong-shape": "Unexpected shape",
+  "invalid-items": "Invalid entries removed",
+};
+
 function Page() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [log, setLog] = useState<RepairEntry[]>([]);
+  const [backups, setBackups] = useState<ReturnType<typeof listBackups>>([]);
+
+  const refresh = () => {
+    setLog(getRepairLog());
+    setBackups(listBackups());
+  };
+  useEffect(() => { refresh(); }, []);
+
+  const scan = () => {
+    const repairs = runIntegrityCheck();
+    refresh();
+    if (repairs.length === 0) toast.success("All stored data passed validation");
+    else toast.warning(`Repaired ${repairs.length} store(s); originals were backed up`);
+  };
+
 
   const doExport = () => {
     const data = exportBackup();
