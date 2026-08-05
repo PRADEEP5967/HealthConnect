@@ -1,5 +1,9 @@
 // LocalStorage-backed data layer. All access should go through helpers here.
 // SSR-safe: returns defaults when window is undefined.
+import { validateAndRepairKey, runIntegrityCheck } from "./schema";
+
+export { runIntegrityCheck };
+
 
 export type Role = "ADMIN" | "USER";
 
