@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useAuth } from "@/lib/auth";
-import { supabase } from "@/integrations/supabase/client";
+import { Users, hashPassword } from "@/lib/storage";
 import { useTheme } from "@/lib/theme";
 
 export const Route = createFileRoute("/_user/settings")({
@@ -25,8 +25,8 @@ function Page() {
   const changePw = async () => {
     if (!user) return;
     if (pw.length < 6) return toast.error("Password too short");
-    const { error } = await supabase.auth.updateUser({ password: pw });
-    if (error) return toast.error(error.message);
+    const hash = await hashPassword(pw);
+    Users.update(user.id, { passwordHash: hash });
     setPw("");
     toast.success("Password updated");
   };

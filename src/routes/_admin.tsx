@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AdminSidebar } from "@/components/admin-sidebar";
 import { useAuth } from "@/lib/auth";
-import { syncDirectory } from "@/lib/cloud";
 
 import { useTheme } from "@/lib/theme";
 import { Button } from "@/components/ui/button";
@@ -28,20 +27,6 @@ function AdminLayout() {
     if (!user) nav({ to: "/login" });
     else if (user.role !== "ADMIN") nav({ to: "/dashboard" });
   }, [ready, user, nav]);
-
-  // Keep the admin view in sync with accounts and activity created on other devices.
-  useEffect(() => {
-    if (!user || user.role !== "ADMIN") return;
-    void syncDirectory();
-    const t = setInterval(() => void syncDirectory(), 20000);
-    const onFocus = () => void syncDirectory();
-    window.addEventListener("focus", onFocus);
-    return () => {
-      clearInterval(t);
-      window.removeEventListener("focus", onFocus);
-    };
-  }, [user]);
-
 
   useKeyboardShortcuts([
     { key: "d", description: "Dashboard", handler: () => nav({ to: "/admin/dashboard" }) },

@@ -15,7 +15,6 @@ import {
 } from "@/lib/storage";
 import { useAuth } from "@/lib/auth";
 import { adminResetPassword, adminDeleteUser } from "@/lib/admin.functions";
-import { syncDirectory } from "@/lib/cloud";
 
 export const Route = createFileRoute("/_admin/admin/users/$userId")({
   ssr: false,
@@ -67,7 +66,6 @@ function Page() {
     try {
       await adminDeleteUser({ data: { userId } });
       if (admin) Activity.log(admin.id, "ADMIN_DELETE_USER", `Deleted ${user.name}`);
-      await syncDirectory();
       toast.success("User deleted");
       nav({ to: "/admin/users" });
     } catch (e) {

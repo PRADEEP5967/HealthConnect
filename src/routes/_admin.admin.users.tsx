@@ -14,7 +14,6 @@ import { Trash2, KeyRound, Eye } from "lucide-react";
 import { useLiveLoading } from "@/lib/useLive";
 import { Users, Activity } from "@/lib/storage";
 import { adminResetPassword, adminDeleteUser } from "@/lib/admin.functions";
-import { syncDirectory } from "@/lib/cloud";
 import { useAuth } from "@/lib/auth";
 import { TableSkeleton } from "@/components/page-skeleton";
 import { AnimateIn } from "@/components/animate-in";
@@ -50,7 +49,6 @@ function Page() {
       await adminDeleteUser({ data: { userId: id } });
       Users.remove(id);
       if (admin) Activity.log(admin.id, "ADMIN_DELETE_USER", `Deleted ${name}`);
-      await syncDirectory();
       toast.success("Deleted");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not delete user");
