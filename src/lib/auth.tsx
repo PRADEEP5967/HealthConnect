@@ -3,6 +3,7 @@ import {
   Users, Activity, ensureSeed, hashPassword, SessionStore, uid,
   type User, type Role,
 } from "./storage";
+import { detectDevice } from "./device";
 
 interface AuthCtx {
   user: User | null;
@@ -60,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     SessionStore.set({ userId: u.id, role: u.role, loggedAt: new Date().toISOString() });
     setUser(u);
-    Activity.log(u.id, "LOGIN", "Signed into account");
+    Activity.log(u.id, "LOGIN", "Signed into account", detectDevice());
     return { ok: true, role: u.role };
   };
 
@@ -80,12 +81,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     Users.add(u);
     SessionStore.set({ userId: u.id, role: u.role, loggedAt: new Date().toISOString() });
     setUser(u);
-    Activity.log(u.id, "REGISTER", "Created account");
+    Activity.log(u.id, "REGISTER", "Created account", detectDevice());
     return { ok: true, role: u.role };
   };
 
   const logout = () => {
-    if (user) Activity.log(user.id, "LOGOUT", "Signed out");
+    if (user) Activity.log(user.id, "LOGOUT", "Signed out", detectDevice());
     SessionStore.clear();
     setUser(null);
   };

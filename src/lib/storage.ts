@@ -125,6 +125,11 @@ export interface ActivityLog {
   activity: string;
   description: string;
   timestamp: string;
+  deviceType?: string;
+  browser?: string;
+  os?: string;
+  ipAddress?: string;
+  location?: string;
 }
 
 export interface Notification {
@@ -348,7 +353,12 @@ export const Emergency = {
 export const Activity = {
   all: () => list<ActivityLog>(KEYS.activity),
   replaceAll: (arr: ActivityLog[]) => saveList<ActivityLog>(KEYS.activity, arr),
-  log: (userId: string, activity: string, description: string) => {
+  log: (
+    userId: string,
+    activity: string,
+    description: string,
+    deviceInfo?: { deviceType?: string; browser?: string; os?: string; ipAddress?: string; location?: string },
+  ) => {
     const user = Users.byId(userId);
     add<ActivityLog>(KEYS.activity, {
       id: uid(),
@@ -357,6 +367,11 @@ export const Activity = {
       activity,
       description,
       timestamp: new Date().toISOString(),
+      deviceType: deviceInfo?.deviceType,
+      browser: deviceInfo?.browser,
+      os: deviceInfo?.os,
+      ipAddress: deviceInfo?.ipAddress,
+      location: deviceInfo?.location,
     });
   },
   clear: () => {
@@ -604,6 +619,11 @@ export async function ensureSeed() {
       activity: "LOGIN",
       description: "Signed into account",
       timestamp: iso(daysAgo(1)),
+      deviceType: "PC",
+      browser: "Google Chrome",
+      os: "Windows 10/11",
+      ipAddress: "Local network",
+      location: "1920×1080 · America/New_York",
     },
     {
       id: uid(),
@@ -612,6 +632,24 @@ export async function ensureSeed() {
       activity: "HEALTH_RECORD_ADDED",
       description: "Logged blood pressure",
       timestamp: iso(daysAgo(1)),
+      deviceType: "Phone",
+      browser: "Safari",
+      os: "iOS",
+      ipAddress: "Local network",
+      location: "390×844 · America/New_York",
+    },
+    {
+      id: uid(),
+      userId: adminUser.id,
+      userName: adminUser.name,
+      activity: "LOGIN",
+      description: "Signed into admin account",
+      timestamp: iso(daysAgo(0)),
+      deviceType: "PC",
+      browser: "Google Chrome",
+      os: "macOS",
+      ipAddress: "Local network",
+      location: "2560×1440 · America/New_York",
     },
   ]);
 
