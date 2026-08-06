@@ -6,7 +6,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -41,8 +41,12 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   // Transient failures (dev-server restarts, stale chunks, dropped network) render
-  // this boundary even though the app is healthy — recover automatically once.
+  // this boundary even though the app is healthy — recover automatically ONCE.
+  // Retrying forever makes a persistent error flicker the screen blank on a loop.
+  const retried = useRef(false);
   useEffect(() => {
+    if (retried.current) return;
+    retried.current = true;
     const t = setTimeout(() => {
       router.invalidate();
       reset();
