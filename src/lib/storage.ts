@@ -260,11 +260,9 @@ export const Users = {
   replaceAll: (arr: User[]) => saveList<User>(KEYS.users, arr),
   update: (id: string, patch: Partial<User>) => {
     update<User>(KEYS.users, id, patch);
-    if (isBrowser()) void import("./cloud").then((m) => m.pushProfileUpdate(id, patch));
   },
   remove: (id: string) => {
     remove<User>(KEYS.users, id);
-    if (isBrowser()) void import("./cloud").then((m) => m.deleteProfileRemote(id));
   },
 };
 
@@ -360,13 +358,9 @@ export const Activity = {
       description,
       timestamp: new Date().toISOString(),
     });
-    if (isBrowser()) {
-      void import("./cloud").then((m) => m.logActivityRemote(userId, user?.name, activity, description));
-    }
   },
   clear: () => {
     saveList<ActivityLog>(KEYS.activity, []);
-    if (isBrowser()) void import("./cloud").then((m) => m.clearActivityRemote());
   },
 };
 
