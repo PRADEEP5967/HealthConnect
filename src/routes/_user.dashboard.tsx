@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { HeartPulse, Pill, Calendar, Activity, TrendingUp, Bell, Weight, Moon, Target, Sparkles, CheckCircle2, AlertTriangle, Footprints } from "lucide-react";
+import { HeartPulse, Pill, Calendar, Activity, TrendingUp, Bell, Weight, Moon, Target, Sparkles, CircleCheck as CheckCircle2, TriangleAlert as AlertTriangle, Footprints } from "lucide-react";
 import { StatsCard, PageHeader } from "@/components/stats-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
