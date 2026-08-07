@@ -164,6 +164,15 @@ export interface Session {
   loggedAt: string;
 }
 
+export interface HealthGoal {
+  id: string;
+  userId: string;
+  type: "steps" | "sleep" | "water" | "exercise" | "calories";
+  target: number;
+  unit: string;
+  createdAt: string;
+}
+
 const KEYS = {
   users: "hc_users",
   session: "hc_session",
@@ -180,6 +189,7 @@ const KEYS = {
   notifications: "hc_notifications",
   articles: "hc_articles",
   settings: "hc_system_settings",
+  goals: "hc_health_goals",
   seeded: "hc_seeded_v1",
 } as const;
 
@@ -417,6 +427,14 @@ const defaultSettings: SystemSettings = {
 export const Settings = {
   get: () => read<SystemSettings>(KEYS.settings, defaultSettings),
   save: (s: SystemSettings) => write(KEYS.settings, s),
+};
+
+export const Goals = {
+  all: () => list<HealthGoal>(KEYS.goals),
+  forUser: (uid: string) => Goals.all().filter((g) => g.userId === uid),
+  add: (g: HealthGoal) => add(KEYS.goals, g),
+  update: (id: string, p: Partial<HealthGoal>) => update<HealthGoal>(KEYS.goals, id, p),
+  remove: (id: string) => remove<HealthGoal>(KEYS.goals, id),
 };
 
 // Backup

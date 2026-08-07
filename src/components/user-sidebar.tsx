@@ -14,6 +14,7 @@ import {
   LogOut,
   BookOpen,
   Bell,
+  Target,
 } from "lucide-react";
 import {
   Sidebar,
@@ -40,6 +41,7 @@ const items = [
   { title: "Fitness", url: "/fitness", icon: Dumbbell },
   { title: "Nutrition", url: "/nutrition", icon: Apple },
   { title: "Sleep", url: "/sleep", icon: Moon },
+  { title: "Goals", url: "/goals", icon: Target },
   { title: "Emergency", url: "/emergency", icon: ShieldAlert },
   { title: "Articles", url: "/articles", icon: BookOpen },
 ];

@@ -1,12 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { HeartPulse, Pill, Calendar, Activity, TrendingUp, Bell, Weight, Moon } from "lucide-react";
+import { HeartPulse, Pill, Calendar, Activity, TrendingUp, Bell, Weight, Moon, Target, Sparkles, CheckCircle2, AlertTriangle, Footprints } from "lucide-react";
 import { StatsCard, PageHeader } from "@/components/stats-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
-import { useLiveLoading } from "@/lib/useLive";
-import { Metrics, Medications, Appointments, Notifications, Sleep } from "@/lib/storage";
+import { useLiveLoading, useLive } from "@/lib/useLive";
+import { Metrics, Medications, Appointments, Notifications, Sleep, Goals } from "@/lib/storage";
+import { computeHealthScore, generateInsights, getGoalProgress, type HealthInsight } from "@/lib/insights";
+import { Progress } from "@/components/ui/progress";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -37,6 +39,10 @@ function Dashboard() {
   const { data: notifs, loading: l4 } = useLiveLoading(() => Notifications.forUser(uid), []);
   const unread = useLiveLoading(() => Notifications.unreadCount(uid), 0).data;
   const { data: sleepData, loading: l5 } = useLiveLoading(() => Sleep.forUser(uid), []);
+  const goals = useLive(() => Goals.forUser(uid), [] as unknown[]);
+  const healthScore = useLive(() => computeHealthScore(uid), 0, [goals.length]);
+  const insights = useLive(() => generateInsights(uid), [] as HealthInsight[], [goals.length]);
+  const goalProgress = useLive(() => getGoalProgress(uid), [], [goals.length]);
 
   const loading = l1 || l2 || l3 || l4 || l5;
 
@@ -61,6 +67,73 @@ function Dashboard() {
   return (
     <div>
       <PageHeader title={`Welcome back, ${user?.name?.split(" ")[0] ?? ""}`} description="Here's a snapshot of your wellness." />
+
+      <div className="grid gap-4 lg:grid-cols-3 mb-2">
+        <AnimateIn variant="fade-in-up" className="lg:col-span-1">
+          <Card className="transition-shadow duration-200 hover:shadow-md h-full">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Target className="h-4 w-4 text-primary" /> Health score
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center justify-center py-6">
+              <div className="relative h-32 w-32">
+                <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--muted)" strokeWidth="8" />
+                  <circle
+                    cx="50" cy="50" r="42" fill="none" stroke="var(--primary)" strokeWidth="8"
+                    strokeLinecap="round"
+                    strokeDasharray={`${(healthScore / 100) * 264} 264`}
+                    className="transition-all duration-700"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-3xl font-bold tabular-nums">{healthScore}</span>
+                  <span className="text-xs text-muted-foreground">out of 100</span>
+                </div>
+              </div>
+              <div className="mt-3 text-sm text-muted-foreground text-center">
+                {healthScore >= 80 ? "Excellent progress today!" : healthScore >= 50 ? "Good — keep going!" : healthScore > 0 ? "Let's pick up the pace." : "Set goals to track your score."}
+              </div>
+            </CardContent>
+          </Card>
+        </AnimateIn>
+
+        <AnimateIn variant="fade-in-up" delay={50} className="lg:col-span-2">
+          <Card className="transition-shadow duration-200 hover:shadow-md h-full">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary" /> Smart insights
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {insights.map((ins, i) => (
+                <div key={i} className="flex items-start gap-3 rounded-lg border p-3 transition-colors hover:bg-accent/50">
+                  <span className={`mt-0.5 ${ins.tone === "good" ? "text-success" : ins.tone === "warning" ? "text-warning" : "text-destructive"}`}>
+                    {ins.icon === "CheckCircle2" ? <CheckCircle2 className="h-4 w-4" /> : ins.icon === "AlertTriangle" ? <AlertTriangle className="h-4 w-4" /> : ins.icon === "Moon" ? <Moon className="h-4 w-4" /> : ins.icon === "Footprints" ? <Footprints className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />}
+                  </span>
+                  <div className="flex-1">
+                    <div className="text-sm font-medium">{ins.title}</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">{ins.detail}</div>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </AnimateIn>
+      </div>
+
+      {goalProgress.length > 0 && (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5 mb-2 stagger">
+          {goalProgress.map((p) => (
+            <Card key={p.goal.id} className="p-3 transition-shadow duration-200 hover:shadow-md">
+              <div className="text-xs font-medium text-muted-foreground truncate">{p.label}</div>
+              <div className="mt-1 text-lg font-semibold tabular-nums">{p.current.toLocaleString()}<span className="text-xs text-muted-foreground font-normal"> / {p.goal.target.toLocaleString()}</span></div>
+              <Progress value={p.percent} className="h-1.5 mt-2" />
+            </Card>
+          ))}
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 stagger">
         <StatsCard

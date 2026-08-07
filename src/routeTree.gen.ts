@@ -20,6 +20,7 @@ import { Route as UserArticlesRouteImport } from './routes/_user.articles'
 import { Route as UserDashboardRouteImport } from './routes/_user.dashboard'
 import { Route as UserEmergencyRouteImport } from './routes/_user.emergency'
 import { Route as UserFitnessRouteImport } from './routes/_user.fitness'
+import { Route as UserGoalsRouteImport } from './routes/_user.goals'
 import { Route as UserHealthRouteImport } from './routes/_user.health'
 import { Route as UserMedicineRouteImport } from './routes/_user.medicine'
 import { Route as UserNotificationsRouteImport } from './routes/_user.notifications'
@@ -95,6 +96,11 @@ const UserEmergencyRoute = UserEmergencyRouteImport.update({
 const UserFitnessRoute = UserFitnessRouteImport.update({
   id: '/fitness',
   path: '/fitness',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserGoalsRoute = UserGoalsRouteImport.update({
+  id: '/goals',
+  path: '/goals',
   getParentRoute: () => UserRoute,
 } as any)
 const UserHealthRoute = UserHealthRouteImport.update({
@@ -225,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof UserDashboardRoute
   '/emergency': typeof UserEmergencyRoute
   '/fitness': typeof UserFitnessRoute
+  '/goals': typeof UserGoalsRoute
   '/health': typeof UserHealthRoute
   '/medicine': typeof UserMedicineRoute
   '/notifications': typeof UserNotificationsRoute
@@ -259,6 +266,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof UserDashboardRoute
   '/emergency': typeof UserEmergencyRoute
   '/fitness': typeof UserFitnessRoute
+  '/goals': typeof UserGoalsRoute
   '/health': typeof UserHealthRoute
   '/medicine': typeof UserMedicineRoute
   '/notifications': typeof UserNotificationsRoute
@@ -296,6 +304,7 @@ export interface FileRoutesById {
   '/_user/dashboard': typeof UserDashboardRoute
   '/_user/emergency': typeof UserEmergencyRoute
   '/_user/fitness': typeof UserFitnessRoute
+  '/_user/goals': typeof UserGoalsRoute
   '/_user/health': typeof UserHealthRoute
   '/_user/medicine': typeof UserMedicineRoute
   '/_user/notifications': typeof UserNotificationsRoute
@@ -332,6 +341,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/emergency'
     | '/fitness'
+    | '/goals'
     | '/health'
     | '/medicine'
     | '/notifications'
@@ -366,6 +376,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/emergency'
     | '/fitness'
+    | '/goals'
     | '/health'
     | '/medicine'
     | '/notifications'
@@ -402,6 +413,7 @@ export interface FileRouteTypes {
     | '/_user/dashboard'
     | '/_user/emergency'
     | '/_user/fitness'
+    | '/_user/goals'
     | '/_user/health'
     | '/_user/medicine'
     | '/_user/notifications'
@@ -513,6 +525,13 @@ declare module '@tanstack/react-router' {
       path: '/fitness'
       fullPath: '/fitness'
       preLoaderRoute: typeof UserFitnessRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/goals': {
+      id: '/_user/goals'
+      path: '/goals'
+      fullPath: '/goals'
+      preLoaderRoute: typeof UserGoalsRouteImport
       parentRoute: typeof UserRoute
     }
     '/_user/health': {
@@ -733,6 +752,7 @@ interface UserRouteChildren {
   UserDashboardRoute: typeof UserDashboardRoute
   UserEmergencyRoute: typeof UserEmergencyRoute
   UserFitnessRoute: typeof UserFitnessRoute
+  UserGoalsRoute: typeof UserGoalsRoute
   UserHealthRoute: typeof UserHealthRoute
   UserMedicineRoute: typeof UserMedicineRoute
   UserNotificationsRoute: typeof UserNotificationsRoute
@@ -749,6 +769,7 @@ const UserRouteChildren: UserRouteChildren = {
   UserDashboardRoute: UserDashboardRoute,
   UserEmergencyRoute: UserEmergencyRoute,
   UserFitnessRoute: UserFitnessRoute,
+  UserGoalsRoute: UserGoalsRoute,
   UserHealthRoute: UserHealthRoute,
   UserMedicineRoute: UserMedicineRoute,
   UserNotificationsRoute: UserNotificationsRoute,
